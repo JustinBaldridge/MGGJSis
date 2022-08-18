@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101554a361396104fb43f3959fd0f6e7, type: 3}
+  m_Name: Artillery
+  m_EditorClassIdentifier: 
+  title: King
+  description: 
+  tier: 5
+  playerPiecePrefab: {fileID: 2742983632004420255, guid: 90399170aa8c9d84f8913d6eb6c194d4, type: 3}
+  enemyPiecePrefab: {fileID: 0}
+  icon: {fileID: 21300000, guid: 7f206c2854db22c44a4f0382a8a5afde, type: 3}

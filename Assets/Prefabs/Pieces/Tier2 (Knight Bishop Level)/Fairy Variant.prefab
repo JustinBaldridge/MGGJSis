@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ed859306101ca41846a6798b9a0a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceData: {fileID: 11400000, guid: 359179af00b3afd43bbb20451f847c54, type: 2}
+  piece: {fileID: 11400000, guid: 359179af00b3afd43bbb20451f847c54, type: 2}
   movePiece:
     serializedVersion: 2
     m_Curve: []

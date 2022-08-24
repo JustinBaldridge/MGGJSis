@@ -79,7 +79,7 @@ public class EnemyAI : MonoBehaviour
         foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
         {
             BaseAction bestBaseAction = enemyUnit.GetUnitAction();
-            EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction();
+            EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
 
             if (bestEnemyAIAction != null)
             {
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
         return false;
     }
 
-    
+    /*
     private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
     {
         //Debug.Log("EnemyAI.cs  TryTakeEnemyAIAction Start");
@@ -139,9 +139,9 @@ public class EnemyAI : MonoBehaviour
                     bestBaseAction = baseAction;
                 }
             }
-        }*/
+        }* /
 
-        if (bestEnemyAIAction != null /*&& enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction)*/)
+        if (bestEnemyAIAction != null /*&& enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction)* /)
         {
             bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onEnemyAIActionComplete);
             return true;
@@ -150,5 +150,5 @@ public class EnemyAI : MonoBehaviour
         {
             return false;
         }
-    }
+    }*/
 }

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101554a361396104fb43f3959fd0f6e7, type: 3}
   m_Name: Pawn
   m_EditorClassIdentifier: 
+  characterName: Kiyoko
   title: Pawn
   description: 
   tier: 1
-  playerPiecePrefab: {fileID: 4952316608678500428, guid: 962105fa1c130764e9c10051f6f930cf, type: 3}
-  enemyPiecePrefab: {fileID: 0}
+  characterSprite: {fileID: 21300000, guid: 96951f369b279c744a3d25a84d7ce6ce, type: 3}
   icon: {fileID: 21300000, guid: 3145dca63440607449d13a2393d01605, type: 3}
+  primaryColor: {r: 0.14509805, g: 0.36078432, b: 0.25490198, a: 1}
+  secondaryColor: {r: 0.098039225, g: 0.23137257, b: 0.2392157, a: 1}

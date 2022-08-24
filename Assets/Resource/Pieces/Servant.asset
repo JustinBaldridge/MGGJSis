@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101554a361396104fb43f3959fd0f6e7, type: 3}
   m_Name: Servant
   m_EditorClassIdentifier: 
-  title: Queen
+  characterName: Iori
+  title: Servant
   description: 
-  tier: 4
-  playerPiecePrefab: {fileID: 3184295896597584056, guid: 94a08ae2c4a96da4a9a56f4d5de1ca71, type: 3}
-  enemyPiecePrefab: {fileID: 0}
+  tier: 2
+  characterSprite: {fileID: 21300000, guid: 5be5aca8c50018c4da933125b3a35ac0, type: 3}
   icon: {fileID: 21300000, guid: 38affe8b0fa9b394a8802cad6ea9090a, type: 3}
+  primaryColor: {r: 0.70980394, g: 0.3137255, b: 0.53333336, a: 1}
+  secondaryColor: {r: 0.40784317, g: 0.21568629, b: 0.42352945, a: 1}

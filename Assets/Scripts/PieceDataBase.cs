@@ -2,32 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (fileName="New Piece", menuName="Piece")]
-public class PieceDataBase : ScriptableObject
+public class PieceDatabase : MonoBehaviour
 {
-    [SerializeField] string title;
-    [TextArea (2,10)]
-    [SerializeField] string description;
-    [SerializeField] int tier;
+    public static PieceDatabase Instance;
 
-    [SerializeField] Sprite icon;
+    [SerializeField] List<PieceBase> tierOnePieces = new List<PieceBase>();
+    [SerializeField] List<PieceBase> tierTwoPieces;
+    [SerializeField] List<PieceBase> tierThreePieces;
+    [SerializeField] List<PieceBase> tierFourPieces;
 
-    public string Title 
+    private void Awake()
     {
-        get {return title;}
+        if (Instance != null)
+        {
+            Debug.LogError("There's more than one PieceDatabase! " + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    public string Description{
-        get { return description;}
-    }
-
-    public int Tier
+    public PieceBase GetRandomPieceOfTier(int tier)
     {
-        get {return tier;}
+        switch (tier)
+        {
+            default:
+            case 1:
+                return tierOnePieces[Random.Range(0, tierOnePieces.Count)];
+            case 2:
+                return tierTwoPieces[Random.Range(0, tierTwoPieces.Count)];
+            case 3:
+                return tierThreePieces[Random.Range(0, tierThreePieces.Count)];
+            case 4:
+                return tierFourPieces[Random.Range(0, tierFourPieces.Count)];
+        }
     }
-
-    public Sprite Icon
-    {
-        get {return icon;}
-    }
+    
 }

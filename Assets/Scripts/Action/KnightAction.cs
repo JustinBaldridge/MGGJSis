@@ -20,7 +20,7 @@ public class KnightAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition, VirtualBoard virtualBoard)
     {
         int maxMoveDistance = 2;
         List<GridPosition> validGridPositionList = new List<GridPosition>();
@@ -39,7 +39,7 @@ public class KnightAction : BaseAction
                     continue;
                 }
 
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+                if (!virtualBoard.IsValidGridPosition(testGridPosition))
                 {
                     continue;
                 }
@@ -50,10 +50,10 @@ public class KnightAction : BaseAction
                     continue;
                 }
 
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                if (virtualBoard.HasAnyUnitOnGridPosition(testGridPosition))
                 {
                     // Grid position already occupied with another unit
-                    Unit _unit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                    Unit _unit = virtualBoard.GetUnitAtGridPosition(testGridPosition);
 
                     if (_unit.IsEnemy() != this.unit.IsEnemy())
                     {

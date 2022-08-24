@@ -18,6 +18,7 @@ public class UnitActionSystem : MonoBehaviour
     private BaseAction selectedAction;
 
     private bool isBusy;
+    private bool offline;
 
     private void Awake()
     {
@@ -36,6 +37,8 @@ public class UnitActionSystem : MonoBehaviour
 
     private void Update()
     {
+        if (offline) return;
+        
         if (isBusy) return;
         
         if (!TurnSystem.Instance.IsPlayerTurn()) return; 
@@ -90,6 +93,16 @@ public class UnitActionSystem : MonoBehaviour
     {
         isBusy = false;
         OnBusyChanged?.Invoke(this, false);
+    }
+
+    private void SetOffline()
+    {
+        offline = true;
+    }
+
+    private void ClearOffline()
+    {
+        offline = false;
     }
 
     private bool TryHandleUnitSelection()

@@ -11,6 +11,8 @@ public class PawnAction : BaseAction
     {
         List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
 
+        hasMoved = true;
+
         currentPositionIndex = 0;
         this.positionList = new List<Vector3>();
 
@@ -22,82 +24,23 @@ public class PawnAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition)
+    public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition, VirtualBoard virtualBoard)
     {
         int maxMoveDistance = (hasMoved)? 1 : 2;
         int maxAttackDistance = 1;
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
+        int forward = (this.unit.IsEnemy())? -1 : 1;
+
         ResetGridPositionLists();
 
-        for (int z = 0; z <= maxMoveDistance; z++)
-        {
-            GridPosition offsetGridPosition = new GridPosition(0, z * ((this.unit.IsEnemy())? -1 : 1));
-            GridPosition testGridPosition = gridPosition + offsetGridPosition;
-
-            if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) { continue; }
-
-            // Same Grid Position where the unit is already at
-            if (gridPosition == testGridPosition) { continue; }
-
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
-            {
-                break;
-            }
-
-            validMovementGridPositionList.Add(testGridPosition);
-            validGridPositionList.Add(testGridPosition);
-        }
+        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(0, forward), maxMoveDistance, 0, false));
 
         // Up Left
-        for (int d = 0; d <= maxAttackDistance; d++)
-        {
-            GridPosition offsetGridPosition = new GridPosition(-d, d * ((this.unit.IsEnemy())? -1 : 1));
-            GridPosition testGridPosition = gridPosition + offsetGridPosition;
-
-            if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) { continue; }
-
-            // Same Grid Position where the unit is already at
-            if (gridPosition == testGridPosition) { continue; }
-
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
-            {
-                // Grid position already occupied with another unit
-                Unit unit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-
-                if (unit.IsEnemy() != this.unit.IsEnemy())
-                {
-                    validAttackGridPositionList.Add(testGridPosition);
-                    validGridPositionList.Add(testGridPosition);
-                }
-                break;
-            }
-        }
+        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(-1, forward), maxAttackDistance, 0, true, true));
 
         // Up Right
-        for (int d = 0; d <= maxAttackDistance; d++)
-        {
-            GridPosition offsetGridPosition = new GridPosition(d, d * ((this.unit.IsEnemy())? -1 : 1));
-            GridPosition testGridPosition = gridPosition + offsetGridPosition;
-
-            if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) { continue; }
-
-            // Same Grid Position where the unit is already at
-            if (gridPosition == testGridPosition) { continue; }
-
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
-            {
-                // Grid position already occupied with another unit
-                Unit unit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-
-                if (unit.IsEnemy() != this.unit.IsEnemy())
-                {
-                    validAttackGridPositionList.Add(testGridPosition);
-                    validGridPositionList.Add(testGridPosition);
-                }
-                break;
-            }
-        }
+        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(1, forward), maxAttackDistance, 0, true, true));
         
 
         return validGridPositionList;

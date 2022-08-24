@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101554a361396104fb43f3959fd0f6e7, type: 3}
   m_Name: Fairy
   m_EditorClassIdentifier: 
-  title: Pawn
+  characterName: Natsumi
+  title: Fairy
   description: 
-  tier: 1
-  playerPiecePrefab: {fileID: 4952316608678500428, guid: 962105fa1c130764e9c10051f6f930cf, type: 3}
-  enemyPiecePrefab: {fileID: 0}
+  tier: 2
+  characterSprite: {fileID: 21300000, guid: 5e62f7d1fa52d8e42810dd46fdcca7f6, type: 3}
   icon: {fileID: 21300000, guid: 3145dca63440607449d13a2393d01605, type: 3}
+  primaryColor: {r: 0.96470594, g: 0.45882356, b: 0.4784314, a: 1}
+  secondaryColor: {r: 0.75294125, g: 0.7960785, b: 0.86274517, a: 1}

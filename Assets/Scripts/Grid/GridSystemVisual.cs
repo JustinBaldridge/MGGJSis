@@ -140,18 +140,35 @@ public class GridSystemVisual : MonoBehaviour
         switch (selectedAction)
         {
             default:
-            case MoveAction moveAction:
                 gridVisualType = GridVisualType.White;
                 break;
         }
 
+        List<GridPosition> validActions = selectedAction.GetValidActionGridPositionList();
         ShowGridPositionList(
-            selectedAction.GetValidActionGridPositionList(), gridVisualType);
+            validActions, gridVisualType);
 
         ShowGridPositionList(
             selectedAction.GetValidMovementGridPositionList(), GridVisualType.White);
+
+        List<GridPosition> validAttacks = new List<GridPosition>();
+        List<GridPosition> invalidAttacks = new List<GridPosition>();
+        List<GridPosition> allAttacks = selectedAction.GetValidAttackGridPositionList();
+        foreach (GridPosition gp in allAttacks)
+        {
+            if (validActions.Contains(gp))
+            {
+                validAttacks.Add(gp);
+            }
+            else
+            {
+                invalidAttacks.Add(gp);
+            }
+        }
         ShowGridPositionList(
-            selectedAction.GetValidAttackGridPositionList(), GridVisualType.Red);
+            validAttacks, GridVisualType.Red);
+        ShowGridPositionList(
+            invalidAttacks, GridVisualType.RedSoft);
         ShowGridPositionList(
             selectedAction.GetValidAllyTargetGridPositionList(), GridVisualType.Blue);
     }

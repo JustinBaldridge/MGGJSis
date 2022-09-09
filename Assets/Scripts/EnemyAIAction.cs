@@ -10,6 +10,7 @@ public class EnemyAIAction
 
 public class EnemyAIKeyValuePair
 {
+    public int randomness;
     public Unit enemyAIUnit;
     public EnemyAIAction enemyAIAction;
 } 

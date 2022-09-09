@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyAI : MonoBehaviour
 {
+    public int difficulty;
     private enum State {
         WaitingForEnemyTurn,
         TakingTurn,
@@ -20,6 +22,10 @@ public class EnemyAI : MonoBehaviour
     }
     private void Start()
     {
+        
+            difficulty = 50;
+       
+        
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
@@ -71,23 +77,48 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete)
     {
+        int rng;
+        rng = Random.Range(0, 100);
+
         // Random Selection
         List<Unit> enemyUnits = UnitManager.Instance.GetEnemyUnitList();
 
         List<EnemyAIKeyValuePair> enemyAIBestActionsList = new List<EnemyAIKeyValuePair>();
-        //Unit enemyUnit = enemyUnits[UnityEngine.Random.Range(0, enemyUnits.Count)];
-        foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
+        if (difficulty <= rng)
         {
-            BaseAction bestBaseAction = enemyUnit.GetUnitAction();
-            EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
+            Debug.Log("lol rolled");
+            Unit enemyUnit = enemyUnits[Random.Range(0, enemyUnits.Count)];
+                BaseAction bestBaseAction = enemyUnit.GetUnitAction();
+                EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
 
-            if (bestEnemyAIAction != null)
-            {
-                enemyAIBestActionsList.Add(new EnemyAIKeyValuePair
+                if (bestEnemyAIAction != null)
                 {
-                    enemyAIUnit = enemyUnit,
-                    enemyAIAction = bestEnemyAIAction,
-                });
+                    enemyAIBestActionsList.Add(new EnemyAIKeyValuePair
+                    {
+                        randomness = Random.Range(1, 100),
+                        enemyAIUnit = enemyUnit,
+                        enemyAIAction = bestEnemyAIAction,
+                    });
+                }
+            
+        }
+        else
+        {
+            Debug.Log("lol not rolled");
+            foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
+            {
+                BaseAction bestBaseAction = enemyUnit.GetUnitAction();
+                EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
+
+                if (bestEnemyAIAction != null)
+                {
+                    enemyAIBestActionsList.Add(new EnemyAIKeyValuePair
+                    {
+                        randomness = Random.Range(1, 100),
+                        enemyAIUnit = enemyUnit,
+                        enemyAIAction = bestEnemyAIAction,
+                    });
+                }
             }
         }
 
@@ -96,17 +127,29 @@ public class EnemyAI : MonoBehaviour
         EnemyAIKeyValuePair kvp = enemyAIBestActionsList[0];
         foreach (EnemyAIKeyValuePair enemyAIkvp in enemyAIBestActionsList)
         {
-            Debug.Log("EnemyAI.cs  Key Value Pair - Unit: " + enemyAIkvp.enemyAIUnit + " targetGridPosition: " + enemyAIkvp.enemyAIAction.gridPosition + " actionValue: " + enemyAIkvp.enemyAIAction.actionValue);
-            if (enemyAIkvp.enemyAIAction.actionValue > kvp.enemyAIAction.actionValue)
+            if (difficulty <= rng)
             {
-                kvp = enemyAIkvp;
+                Debug.Log( "was random"+"EnemyAI.cs  Key Value Pair - Unit: " + enemyAIkvp.enemyAIUnit + " targetGridPosition: " + enemyAIkvp.enemyAIAction.gridPosition + " actionValue: " + enemyAIkvp.enemyAIAction.actionValue);
+                if (enemyAIkvp.randomness > kvp.randomness)
+                {
+                    kvp = enemyAIkvp;
+                }
+            }
+            else
+            {
+                Debug.Log("EnemyAI.cs  Key Value Pair - Unit: " + enemyAIkvp.enemyAIUnit + " targetGridPosition: " + enemyAIkvp.enemyAIAction.gridPosition + " actionValue: " + enemyAIkvp.enemyAIAction.actionValue);
+                if (enemyAIkvp.enemyAIAction.actionValue > kvp.enemyAIAction.actionValue)
+                {
+                    kvp = enemyAIkvp;
+                }
             }
         }
 
         if (kvp != null)
         {
-            kvp.enemyAIUnit.GetUnitAction().TakeAction(kvp.enemyAIAction.gridPosition, onEnemyAIActionComplete);
-            return true;
+            
+                kvp.enemyAIUnit.GetUnitAction().TakeAction(kvp.enemyAIAction.gridPosition, onEnemyAIActionComplete);
+                return true;
         }
         return false;
     }

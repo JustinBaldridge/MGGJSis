@@ -34,8 +34,8 @@ public class UnitSelectionUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     // Start is called before the first frame update
     void Start()
     {
-        unitSelectionButton.interactable = false;
-        UpdatePiece(piece);
+        DisableButtons();
+        //UpdatePiece(piece);
     }
 
     // Update is called once per frame
@@ -51,6 +51,11 @@ public class UnitSelectionUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
             graphicTransform.anchoredPosition = targetPosition;
         }
         
+    }
+
+    public void DisableButtons()
+    {
+        unitSelectionButton.interactable = false;
     }
 
     public void UpdatePiece(PieceBase piece)
@@ -85,6 +90,7 @@ public class UnitSelectionUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        PieceInfoUI.Instance.UpdateDescription(piece);
         targetPosition = new Vector2(20, 0);
         timer = 0f;
     }

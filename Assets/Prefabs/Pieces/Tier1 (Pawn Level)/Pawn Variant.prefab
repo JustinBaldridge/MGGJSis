@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7468133496330146802, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: dbd29771a9d010344b7f8e416faf01d8, type: 2}
     m_RemovedComponents:
     - {fileID: 1177340871778961435, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
     m_AddedGameObjects: []
@@ -81,10 +85,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb19d7ee8fbe2f4f80aa766c30ef620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxMoveTimer: 1
+  maxAttackTimer: 1
+  moveDistanceTimerAddition: 0
   piece: {fileID: 11400000, guid: 7ee039e2df782f045924ea1c3cff146d, type: 2}
   movePiece:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackPiece:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

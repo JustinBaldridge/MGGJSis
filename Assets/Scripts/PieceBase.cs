@@ -13,6 +13,7 @@ public class PieceBase : ScriptableObject
 
     [SerializeField] Sprite characterSprite;
     [SerializeField] Sprite icon;
+    [SerializeField] Sprite movementExample;
 
     [SerializeField] Color primaryColor;
     [SerializeField] Color secondaryColor;
@@ -42,6 +43,11 @@ public class PieceBase : ScriptableObject
     public Sprite Icon
     {
         get {return icon;}
+    }
+
+    public Sprite MovementExample
+    {
+        get {return movementExample;}
     }
 
     public Color PrimaryColor

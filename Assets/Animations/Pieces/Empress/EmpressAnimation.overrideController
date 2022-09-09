@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EmpressAnimation
+  m_Controller: {fileID: 9100000, guid: 578b2cd19d9bfa8478d01c46c0a281ce, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8fd2ba18223a5a442a18e2e17496cff2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 60dafaa46d272834abf719ee78765cdd, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 72bff2c3a0204a24bbd9a1db76eef9cc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7e7e9c1071db69941ad9c056b0fb3383, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0b888ec7527a391458b4b0352143ff51, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d0570da889586b440bd1afac9f62edfb, type: 2}

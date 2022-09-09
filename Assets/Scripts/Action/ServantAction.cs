@@ -22,18 +22,27 @@ public class ServantAction : BaseAction
             {
                 positionList.Add(LevelGrid.Instance.GetWorldPosition(gridPosition));
                 kingAction.ServantActionSwap(oldGridPosition);
+                hasPerformedKingSwap = true;
+
+                initialPosition = transform.position;
+                targetPostition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                GridPosition unitGridPosition = unit.GetGridPosition();
+
+                //float distance = Mathf.Sqrt( Mathf.Pow(unitGridPosition.x - gridPosition.x, 2) + Mathf.Pow(unitGridPosition.z - gridPosition.z, 2));
+                //modifiedMaxTimer = maxTimer + (moveDistanceTimerAddition * distance);
+
+                movementDirection = targetPostition - initialPosition;
+
+                CallMoveAction();
+                modifiedMaxTimer = maxMoveTimer;
+                animCurve = movePiece;
+
                 ActionStart(onActionComplete);
                 return;
             }
         }
-        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
-
-        foreach (GridPosition pathGridPosition in pathGridPositionList)
-        {
-            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
-        }
-        //OnStartMoving?.Invoke(this, EventArgs.Empty);
-        ActionStart(onActionComplete);
+        
+        base.TakeAction(gridPosition, onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition, VirtualBoard virtualBoard)
@@ -68,6 +77,20 @@ public class ServantAction : BaseAction
         // Down Right
         validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(1, -1), maxAttackDistance, 1, true, true));
 
+        List<Unit> friendlyUnits = UnitManager.Instance.GetFriendlyUnitList();
+
+        if (!hasPerformedKingSwap)
+        {
+            foreach (Unit unit in friendlyUnits)
+            {
+                if (unit.TryGetComponent<KingAction>(out KingAction kingAction))
+                {
+                    validGridPositionList.Add(unit.GetGridPosition());
+                    validAllyTargetGridPositionList.Add(unit.GetGridPosition());
+                }
+            }
+        }
+        
         return validGridPositionList;
     }
 

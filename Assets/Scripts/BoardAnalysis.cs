@@ -29,6 +29,7 @@ public class BoardAnalysis : MonoBehaviour
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
         BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
         BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
+        UnitSpawner.Instance.OnSpawningFinished += UnitSpawner_OnSpawningFinished;
     }
 
     public int GetBoardState()
@@ -74,6 +75,13 @@ public class BoardAnalysis : MonoBehaviour
         currentBoard.MovePiece(startingGridPosition, endingGridPosition);
     }
 
+    private void UnitSpawner_OnSpawningFinished(object sender, EventArgs e)
+    {
+        currentBoard = new VirtualBoard();
+        Debug.Log("BoardAnalusis.cs  OnSpawningFinished");
+        Debug.Log(currentBoard.ToString());
+    }
+
     public static int GetPieceValue(PieceBase piece)
     {
         switch (piece.Tier)
@@ -111,11 +119,19 @@ public class BoardAnalysis : MonoBehaviour
 
     public static int GetPieceAttacksAtGridPosition(BaseAction baseAction, GridPosition gridPosition, VirtualBoard virtualBoard)
     {
-        baseAction.GetValidActionGridPositionList(gridPosition, virtualBoard);
+        List<GridPosition> validPositions = baseAction.GetValidActionGridPositionList(gridPosition, virtualBoard);
         List<GridPosition> positionList = baseAction.GetValidAttackGridPositionList();
 
-        int totalPieceValue = 0;
+        List<GridPosition> validAttacks = new List<GridPosition>();
         foreach (GridPosition position in positionList)
+        {
+            if (validPositions.Contains(position))
+            {
+                validAttacks.Add(position);
+            }
+        }
+        int totalPieceValue = 0;
+        foreach (GridPosition position in validAttacks)
         {
             Unit unit = virtualBoard.GetUnitAtGridPosition(position);
             BaseAction action = unit.GetUnitAction();
@@ -137,9 +153,12 @@ public class BoardAnalysis : MonoBehaviour
             BaseAction opposingUnitAction = unit.GetUnitAction();
             List<GridPosition> validPositions = opposingUnitAction.GetValidActionGridPositionList(unit.GetGridPosition(), virtualBoard);
             List<GridPosition> attackingPositions = opposingUnitAction.GetValidAttackGridPositionList();
-            if (attackingPositions.Contains(gridPosition))
+            if (validPositions.Contains(gridPosition))
             {
-                possibleAttackPositions.Add(unit.GetGridPosition());
+                if (attackingPositions.Contains(gridPosition))
+                {
+                    possibleAttackPositions.Add(unit.GetGridPosition());
+                }
             }
         }
 

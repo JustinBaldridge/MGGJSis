@@ -18,53 +18,30 @@ public class BerserkerAction : BaseAction
     {
         if (!isActive) return;
 
-        Vector3 targetPostition = positionList[currentPositionIndex];
-        Vector3 moveDirection = (targetPostition - transform.position).normalized;
-
         float stoppingDistance = .1f;
-        if (Vector3.Distance(transform.position, targetPostition) > stoppingDistance)
+        if (timer < modifiedMaxTimer)
         {
-            float moveSpeed = 10f;
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            timer += Time.deltaTime;
+            transform.position = initialPosition + (movementDirection * animCurve.Evaluate(timer / modifiedMaxTimer));
         }
         else
         {
-            currentPositionIndex++;
-            if (currentPositionIndex >= positionList.Count)
+            List<Unit> unitsAtPosition = LevelGrid.Instance.GetUnitListAtGridPosition(unit.GetGridPosition());
+            foreach (Unit _unit in unitsAtPosition)
             {
-                //OnStopMoving?.Invoke(this, EventArgs.Empty);
-                List<Unit> unitsAtPosition = LevelGrid.Instance.GetUnitListAtGridPosition(unit.GetGridPosition());
-                foreach (Unit _unit in unitsAtPosition)
-                {
-                    // Unit is this unit
-                    if (_unit == unit) {continue;}
-                    
-                    // Take Enemy Unit (basic function)
-                    _unit.TakePiece();
-                    tookPieceLastTurn = true;
-                    turnCounter = 0;
-                    break;
-                }
+                // Unit is this unit
+                if (_unit == unit) {continue;}
 
-                LevelGrid.Instance.SnapToGrid(unit.GetGridPosition(), unit);
-                OnActionComplete();
+                // Take Enemy Unit (basic function)
+                _unit.TakePiece();
+                tookPieceLastTurn = true;
+                turnCounter = 0;
+                break;
             }
+
+            LevelGrid.Instance.SnapToGrid(unit.GetGridPosition(), unit);
+            OnActionComplete();
         }
-    }
-
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
-    {
-        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
-
-        currentPositionIndex = 0;
-        this.positionList = new List<Vector3>();
-
-        foreach (GridPosition pathGridPosition in pathGridPositionList)
-        {
-            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
-        }
-        //OnStartMoving?.Invoke(this, EventArgs.Empty);
-        ActionStart(onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition, VirtualBoard virtualBoard)

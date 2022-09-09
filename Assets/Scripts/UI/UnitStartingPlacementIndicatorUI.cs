@@ -20,13 +20,24 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
 
     [SerializeField] Color unavailableColor;
 
+    [SerializeField] bool locked;
+    [SerializeField] PieceBase initialPiece;
     PieceBase piece;
+    float alpha = 1f;
+    float minAlpha = .25f;
+    bool alphaDirection = false;
+    bool previewing;
+    bool mouseExited; 
+    float timer;
+    [SerializeField] float previewTimer;
     // Start is called before the first frame update
     void Start()
     {
+        ContinueArrow.OnAnyContinue += ContinueArrow_OnAnyContinue;
         Initialize();
         UpdatePlacementIndicator();
     }
+
     void Initialize()
     {
         for (int i = 0; i < starIndicator.Count; i++)
@@ -39,6 +50,43 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
 
             starIndicator[i].sprite = emptyStar;
         }
+
+        if (initialPiece != null)
+        {
+            piece = initialPiece;
+        }
+    }
+
+    void Update()
+    {
+        if (!previewing) return;
+
+        timer += Time.deltaTime;
+
+        if (!pieceSprite.sprite.Equals(piece?.Sprite))
+        {
+            Debug.Log("UnitStartingPlacementIndicatorUI.cs  Previewing");
+            float alphaSpeed = 0.5f;
+            if (alphaDirection)
+            {
+                alpha += alphaSpeed * Time.deltaTime;
+                if (alpha >= .9f)
+                {
+                    alphaDirection = false;
+                    alpha = 1;
+                }
+            }
+            else
+            {
+                alpha -= alphaSpeed * Time.deltaTime;
+                if (alpha <= minAlpha)
+                {
+                    alphaDirection = true;
+                    alpha = minAlpha;
+                }
+            }
+            pieceSprite.color = new Color(1f, 1f, 1f, alpha);
+        }
     }
 
     void UpdatePlacementIndicator()
@@ -47,6 +95,7 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
         {
             pieceSprite.enabled = true;
             pieceSprite.sprite = piece.Sprite;
+            pieceSprite.color = Color.white;
 
             for (int i = 0; i < starIndicator.Count; i++)
             {
@@ -99,43 +148,65 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
             starIndicator[i].sprite = emptyStar;
         }
     }
-    // Update is called once per frame
-    void Update()
+
+    public PieceBase GetPiece()
     {
-        
+        return piece;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        PieceBase piece = PieceAuraParticles.Instance.GetHeldPiece();
+        PieceBase heldPiece = PieceAuraParticles.Instance.GetHeldPiece();
 
-        if (piece == null) return;
-        PreviewPiece(PieceAuraParticles.Instance.GetHeldPiece());
+        mouseExited = false;
+        if (heldPiece == null)
+        {
+            if (piece == null) return;
+            PieceInfoUI.Instance.UpdateDescription(piece);
+            return;
+        } 
+        PieceInfoUI.Instance.UpdateDescription(heldPiece);
+        previewing = true;
+        PreviewPiece(heldPiece);
+        timer = 0;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (eventData.delta.magnitude > .5f)
-        {
-            UpdatePlacementIndicator();
-        }
+        UpdatePlacementIndicator();
+        previewing = false;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (locked)
+        {  
+            return;
+        } 
         PieceBase testPiece = PieceAuraParticles.Instance.GetHeldPiece();
 
-        if (testPiece == piece)
+        if (piece != null)
         {
-            //Remove Piece
-            piece = null;
-            UpdatePlacementIndicator();
-            OnAnyStartingPlacementPlaced?.Invoke(this, EventArgs.Empty);
+            Debug.Log("UnitStartingPlacementIndicatorUI.cs  testPiece: " + testPiece.Title + ", currentPiece: " + piece.Title); //+ " are == " + testPiece == piece + ", or are Equals " + testPiece.Equals(piece));
+            if (testPiece.Title.Equals(piece.Title))
+            {
+                //Remove Piece
+                piece = null;
+                UpdatePlacementIndicator();
+                OnAnyStartingPlacementPlaced?.Invoke(this, EventArgs.Empty);
+                return;
+            }
         }
-        if (testPiece.Tier <= maxTierForTile)
+        
+
+        int currentStars = TeamTierUI.Instance.GetCurrentStars();
+        int maxStars = TeamTierUI.Instance.GetMaxStars();
+
+        if (testPiece.Tier <= maxTierForTile && currentStars + testPiece.Tier <= maxStars)
         {   
             piece = testPiece;
             Debug.Log("UnitStartingPlacementIndicatorUI.cs  piece Tier: " + piece.Tier + ", maxTierForTile: " + maxTierForTile);
+            Debug.Log("UnitStartingPlacementIndicatorUI.cs  piece Tier: " + piece.Tier + ", maxStars: " + maxStars + ", currentStars: " + currentStars);
             UpdatePlacementIndicator();
             OnAnyStartingPlacementPlaced?.Invoke(this, EventArgs.Empty);
         }
@@ -143,5 +214,10 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
         {
             // Feedback
         }
+    }
+
+    private void ContinueArrow_OnAnyContinue(object sender, EventArgs e)
+    {
+        UpdatePlacementIndicator();
     }
 }

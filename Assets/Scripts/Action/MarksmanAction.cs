@@ -5,22 +5,6 @@ using UnityEngine;
 
 public class MarksmanAction : BaseAction
 {
-
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
-    {
-        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
-
-        currentPositionIndex = 0;
-        this.positionList = new List<Vector3>();
-
-        foreach (GridPosition pathGridPosition in pathGridPositionList)
-        {
-            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
-        }
-        //OnStartMoving?.Invoke(this, EventArgs.Empty);
-        ActionStart(onActionComplete);
-    }
-
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition, VirtualBoard virtualBoard)
     {
         int maxMoveDistance = 8;

@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Kiyoko
   title: Pawn
-  description: 
+  description: "Moves 1 space forward, or up to 2 spaces if it hasn't moved yet.
+    \n\nTakes 1 space diagonally forward."
   tier: 1
   characterSprite: {fileID: 21300000, guid: 96951f369b279c744a3d25a84d7ce6ce, type: 3}
   icon: {fileID: 21300000, guid: 3145dca63440607449d13a2393d01605, type: 3}
+  movementExample: {fileID: 21300000, guid: b63e529efb0187d49b597eeba0593cb5, type: 3}
   primaryColor: {r: 0.14509805, g: 0.36078432, b: 0.25490198, a: 1}
   secondaryColor: {r: 0.098039225, g: 0.23137257, b: 0.2392157, a: 1}

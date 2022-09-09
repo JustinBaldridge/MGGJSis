@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: QueenAnimation
+  m_Controller: {fileID: 9100000, guid: 578b2cd19d9bfa8478d01c46c0a281ce, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8fd2ba18223a5a442a18e2e17496cff2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a209799e9c3967345a89a4cf4ce5769e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 72bff2c3a0204a24bbd9a1db76eef9cc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b5cc50d18f7865b4a945ec36db42e67a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0b888ec7527a391458b4b0352143ff51, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 895339fc06447c345b23132005a0faaa, type: 2}

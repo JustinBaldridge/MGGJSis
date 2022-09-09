@@ -58,6 +58,8 @@ public class GridSystemVisual : MonoBehaviour
 
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
+        BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         UpdateGridVisual();
     }
 
@@ -180,7 +182,25 @@ public class GridSystemVisual : MonoBehaviour
 
     private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, EventArgs e)
     {
-        UpdateGridVisual();
+        //UpdateGridVisual();
+    }
+
+    private void BaseAction_OnAnyActionStarted(object sender, EventArgs e)
+    {
+        HideAllGridPosition();
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        if (UnitActionSystem.Instance.GetOffline()) 
+        {
+            HideAllGridPosition();
+            return;
+        }
+        if (TurnSystem.Instance.IsPlayerTurn())
+        {
+            UpdateGridVisual();
+        }
     }
 
     private Color GetGridVisualTypeColor(GridVisualType gridVisualType)

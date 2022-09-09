@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Miyasaki-san
   title: Knight
-  description: 
+  description: Moves and takes at a space that is 2 spaces in one direction, and
+    1 space in another direction. Jumps pieces.
   tier: 2
   characterSprite: {fileID: 21300000, guid: d5cfa2475a3319047980d2d5bdf4203f, type: 3}
   icon: {fileID: 21300000, guid: 3de202abe875425498e3e80b802af73d, type: 3}
+  movementExample: {fileID: 21300000, guid: f04da75cf9936d340bddff898a0a4b2b, type: 3}
   primaryColor: {r: 0.8941177, g: 0.227451, b: 0.2627451, a: 1}
-  secondaryColor: {r: 0.9960785, g: 0.68235296, b: 0.20000002, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}

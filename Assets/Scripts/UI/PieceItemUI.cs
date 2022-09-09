@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class PieceItemUI : MonoBehaviour
+public class PieceItemUI : MonoBehaviour, IPointerEnterHandler
 {
     public static event EventHandler OnAnyPieceItemSelected;
 
@@ -45,5 +46,9 @@ public class PieceItemUI : MonoBehaviour
     public PieceBase GetPiece()
     {
         return piece;
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        PieceInfoUI.Instance.UpdateDescription(piece);
     }
 }

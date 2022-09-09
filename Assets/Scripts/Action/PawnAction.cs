@@ -9,19 +9,8 @@ public class PawnAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
-
+        base.TakeAction(gridPosition, onActionComplete);
         hasMoved = true;
-
-        currentPositionIndex = 0;
-        this.positionList = new List<Vector3>();
-
-        foreach (GridPosition pathGridPosition in pathGridPositionList)
-        {
-            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
-        }
-        //OnStartMoving?.Invoke(this, EventArgs.Empty);
-        ActionStart(onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(GridPosition gridPosition, VirtualBoard virtualBoard)
@@ -34,13 +23,13 @@ public class PawnAction : BaseAction
 
         ResetGridPositionLists();
 
-        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(0, forward), maxMoveDistance, 0, false));
+        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(0, forward), maxMoveDistance, 1, false));
 
         // Up Left
-        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(-1, forward), maxAttackDistance, 0, true, true));
+        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(-1, forward), maxAttackDistance, 1, true, true));
 
         // Up Right
-        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(1, forward), maxAttackDistance, 0, true, true));
+        validGridPositionList.AddRange(GetValidGridPositionsInDirection(virtualBoard, gridPosition, new Vector2(1, forward), maxAttackDistance, 1, true, true));
         
 
         return validGridPositionList;

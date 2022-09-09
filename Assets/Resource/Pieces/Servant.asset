@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Iori
   title: Servant
-  description: 
+  description: "Moves up to 2 spaces orthogonally. \n\nTakes 1 space diagonally.
+    \n\n- Once per encounter, Swap positions with the King."
   tier: 2
   characterSprite: {fileID: 21300000, guid: 5be5aca8c50018c4da933125b3a35ac0, type: 3}
   icon: {fileID: 21300000, guid: 38affe8b0fa9b394a8802cad6ea9090a, type: 3}
+  movementExample: {fileID: 21300000, guid: 450eff0c54022cf4aaf5060b7b8260d9, type: 3}
   primaryColor: {r: 0.70980394, g: 0.3137255, b: 0.53333336, a: 1}
   secondaryColor: {r: 0.40784317, g: 0.21568629, b: 0.42352945, a: 1}

@@ -8,6 +8,16 @@ public abstract class BaseAction : MonoBehaviour
     public static event EventHandler OnAnyActionStarted;
     
     public static event EventHandler OnAnyActionCompleted;
+
+    public event EventHandler OnMoveActionStarted;
+    public event EventHandler<OnTakeEventArgs> OnTakeActionStarted;
+
+    public class OnTakeEventArgs : EventArgs
+    {
+        public GridPosition targetGridPosition;
+        public Unit targetUnit;
+    }
+
     protected Unit unit;
     protected bool isActive;
     protected Action onActionComplete;
@@ -19,9 +29,23 @@ public abstract class BaseAction : MonoBehaviour
     protected List<Vector3> positionList;
     protected int currentPositionIndex;
 
+    protected Vector3 targetPostition;
+    protected Vector3 initialPosition;
+    protected Vector3 movementDirection;
+
+    [SerializeField] protected float maxMoveTimer;
+    [SerializeField] protected float maxAttackTimer;
+    [SerializeField] protected float moveDistanceTimerAddition;
+
+    protected float timer;
+    protected float modifiedMaxTimer;
+    protected bool attacking;
+
     [SerializeField] protected PieceBase piece;
     [SerializeField] protected AnimationCurve movePiece;
+    [SerializeField] protected AnimationCurve attackPiece;
 
+    protected AnimationCurve animCurve;
     protected virtual void Awake()
     {
         unit = GetComponent<Unit>();
@@ -29,43 +53,87 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract string GetActionName();
 
-    public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
+    public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
+    {
+        //List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
+
+        //currentPositionIndex = 0;
+        //this.positionList = new List<Vector3>();
+
+        //foreach (GridPosition pathGridPosition in pathGridPositionList)
+        //{
+        //    positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+        //}
+        //OnStartMoving?.Invoke(this, EventArgs.Empty);
+        
+        
+        initialPosition = transform.position;
+        targetPostition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        GridPosition unitGridPosition = unit.GetGridPosition();
+
+        float distance = Mathf.Sqrt( Mathf.Pow(unitGridPosition.x - gridPosition.x, 2) + Mathf.Pow(unitGridPosition.z - gridPosition.z, 2));
+        //modifiedMaxTimer = maxTimer + (moveDistanceTimerAddition * distance);
+
+        movementDirection = targetPostition - initialPosition;
+        
+        
+        if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition))
+        {
+            Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+            if (targetUnit.IsEnemy() != this.unit.IsEnemy())
+            {
+                OnTakeActionStarted?.Invoke(this, new OnTakeEventArgs
+                {
+                    targetUnit = targetUnit,
+                    targetGridPosition = gridPosition
+                });
+                modifiedMaxTimer = maxAttackTimer;
+                animCurve = attackPiece;
+            }
+            else
+            {
+                OnMoveActionStarted?.Invoke(this, EventArgs.Empty);
+                modifiedMaxTimer = maxMoveTimer;
+                animCurve = movePiece;
+            }
+        }
+        else
+        {
+            OnMoveActionStarted?.Invoke(this, EventArgs.Empty);
+            modifiedMaxTimer = maxMoveTimer;
+            animCurve = movePiece;
+        }
+        ActionStart(onActionComplete);
+    }
 
     protected virtual void Update()
     {
         if (!isActive) return;
 
-        Vector3 targetPostition = positionList[currentPositionIndex];
-        Vector3 moveDirection = (targetPostition - transform.position).normalized;
-
         float stoppingDistance = .1f;
-        if (Vector3.Distance(transform.position, targetPostition) > stoppingDistance)
+        if (timer < modifiedMaxTimer)
         {
-            float moveSpeed = 10f;
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            timer += Time.deltaTime;
+            transform.position = initialPosition + (movementDirection * animCurve.Evaluate(timer / modifiedMaxTimer));
         }
         else
         {
-            currentPositionIndex++;
-            if (currentPositionIndex >= positionList.Count)
+            List<Unit> unitsAtPosition = LevelGrid.Instance.GetUnitListAtGridPosition(unit.GetGridPosition());
+            foreach (Unit _unit in unitsAtPosition)
             {
-                //OnStopMoving?.Invoke(this, EventArgs.Empty);
-                List<Unit> unitsAtPosition = LevelGrid.Instance.GetUnitListAtGridPosition(unit.GetGridPosition());
-                foreach (Unit _unit in unitsAtPosition)
-                {
-                    // Unit is this unit
-                    if (_unit == unit) {continue;}
+                // Unit is this unit
+                if (_unit == unit) {continue;}
 
-                    // Take Enemy Unit (basic function)
-                    _unit.TakePiece();
-                    break;
-                }
-
-                LevelGrid.Instance.SnapToGrid(unit.GetGridPosition(), unit);
-                OnActionComplete();
+                // Take Enemy Unit (basic function)
+                _unit.TakePiece();
+                break;
             }
+
+            LevelGrid.Instance.SnapToGrid(unit.GetGridPosition(), unit);
+            OnActionComplete();
         }
     }
+
     public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
@@ -93,6 +161,7 @@ public abstract class BaseAction : MonoBehaviour
     {
         isActive = true;
         this.onActionComplete = onActionComplete;
+        timer = 0;
 
         OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
     }
@@ -280,9 +349,9 @@ public abstract class BaseAction : MonoBehaviour
                 Unit unit = virtualBoard.GetUnitAtGridPosition(testGridPosition);
                 if (testGridPosition != this.unit.GetGridPosition())
                 {
-                    validAttackGridPositionList.Add(testGridPosition);
                     if (unit.IsEnemy() != this.unit.IsEnemy())
                     {
+                        validAttackGridPositionList.Add(testGridPosition);
                         validGridPositionList.Add(testGridPosition);
                     }
                     
@@ -291,11 +360,25 @@ public abstract class BaseAction : MonoBehaviour
                 }
             }
 
-            if (onlyTake) continue;
-            
+            if (onlyTake) 
+            {
+                validAttackGridPositionList.Add(testGridPosition);
+                continue;
+            }
+
             validMovementGridPositionList.Add(testGridPosition);
             validGridPositionList.Add(testGridPosition);
         }
         return validGridPositionList;
+    }
+
+    public void CallMoveAction()
+    {
+        OnMoveActionStarted?.Invoke(this, EventArgs.Empty);
+    }
+
+    void OnMouseEnter()
+    {
+        PieceInfoUI.Instance.UpdateDescription(piece);
     }
 }

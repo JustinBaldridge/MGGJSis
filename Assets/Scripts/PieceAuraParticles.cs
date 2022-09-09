@@ -30,6 +30,7 @@ public class PieceAuraParticles : MonoBehaviour
     {
         PieceItemUI.OnAnyPieceItemSelected += PieceItemUI_OnAnyPieceItemSelected;
         UnitStartingPlacementIndicatorUI.OnAnyStartingPlacementPlaced += UnitStartingPlacementIndicatorUI_OnAnyStartingPlacementPlaced;
+        ContinueArrow.OnAnyContinue += ContinueArrow_OnAnyContinue;
     }
 
     // Update is called once per frame
@@ -81,6 +82,11 @@ public class PieceAuraParticles : MonoBehaviour
     }
 
     private void UnitStartingPlacementIndicatorUI_OnAnyStartingPlacementPlaced(object sender, EventArgs e)
+    {
+        //Hide();
+    }
+
+    private void ContinueArrow_OnAnyContinue(object sender, EventArgs e)
     {
         Hide();
     }

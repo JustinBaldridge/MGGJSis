@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Maya
   title: King
-  description: 
+  description: "Moves 1 space in any direction. \n\n- Defend at all costs!"
   tier: 5
   characterSprite: {fileID: 21300000, guid: d11dce6cdacd26845aa50eb721b4eff6, type: 3}
   icon: {fileID: 21300000, guid: 7f206c2854db22c44a4f0382a8a5afde, type: 3}
-  primaryColor: {r: 0.9960785, g: 0.9960785, b: 0.9960785, a: 1}
+  movementExample: {fileID: 21300000, guid: 8da3ef5f78167f54f9aaeb1210db3d88, type: 3}
+  primaryColor: {r: 0.96470594, g: 0.45882356, b: 0.4784314, a: 1}
   secondaryColor: {r: 0.454902, g: 0.24313727, b: 0.21960786, a: 1}

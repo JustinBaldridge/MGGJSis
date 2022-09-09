@@ -48,12 +48,21 @@ public class UnitSelectionSpawner : MonoBehaviour
     
     void Start()
     {
-        SpawnCards();
+        //SpawnCards();
         UnitSelectionUI.OnAnyPieceAddSelected += UnitSelectionUI_OnAnyPieceAddSelected;
+        CameraController.Instance.OnInventorySceneEnter += CameraController_OnInventorySceneEnter;
     }
 
-    void SpawnCards()
+    public void SpawnCards()
     {
+        // Get the highest tier
+        int baseHighest = 2;
+        int highestTier = baseHighest + GameProgression.Instance.GetDifficultyStage();
+
+        // Get pieces to filter out
+        List<PieceBase> ownedPieces = PieceInventory.Instance.GetOwnedPieces();
+
+        List<PieceBase> spawningPiece = new List<PieceBase>();
         for (int i = 0; i < maxCardCount; i++)
         {
             GameObject unitSelectionUIGameObject = Instantiate(unitSelectionUIPrefab, this.transform);
@@ -62,26 +71,34 @@ public class UnitSelectionSpawner : MonoBehaviour
             unitSelectionUIRectTransform[i].anchoredPosition = new Vector2(-300, 100 - (100 * i));
             
             UnitSelectionUI unitSelectionUI = unitSelectionUIRectTransform[i].GetComponent<UnitSelectionUI>();
-            unitSelectionUI.UpdatePiece(PieceDatabase.Instance.GetRandomPieceOfTier(i + 1));
+
+            PieceBase spawnPiece = PieceDatabase.Instance.GetRandomPieceOfTier(UnityEngine.Random.Range(0, highestTier + 1));
+
+            while (ownedPieces.Contains(spawnPiece) || spawningPiece.Contains(spawnPiece))
+            {
+                spawnPiece = PieceDatabase.Instance.GetRandomPieceOfTier(UnityEngine.Random.Range(0, highestTier + 1));
+            }
+            spawningPiece.Add(spawnPiece);
+            unitSelectionUI.UpdatePiece(spawnPiece);
         }
+        timer = 0;
         state = State.Begin;
     }
 
     void Update()
     {
-        
-
         switch (state)
         {
             case State.Inactive:
                 return;
                 //break;
             case State.Begin:
+                timer += Time.deltaTime;
                 for (int i = 0; i < maxCardCount; i++)
                 {
                     if (timer - buffer * i < maxTimer)
                     {
-                        timer += Time.deltaTime;
+                        
                         unitSelectionUIRectTransform[i].anchoredPosition = new Vector2(
                             initalPositions.x + (-initalPositions.x * animCurve.Evaluate((timer - buffer * i) / maxTimer)), 
                             unitSelectionUIRectTransform[i].anchoredPosition.y);
@@ -102,7 +119,8 @@ public class UnitSelectionSpawner : MonoBehaviour
                 state = State.Inactive;
                 break;
             case State.Ending:
-                for (int i = 0; i < maxCardCount; i++)
+                timer += Time.deltaTime;
+                for (int i = 0; i < unitSelectionUIRectTransform.Count; i++)
                 {
                     if (i == index) 
                     {
@@ -115,7 +133,7 @@ public class UnitSelectionSpawner : MonoBehaviour
                     }
                     if (timer - buffer * i < maxTimer)
                     {
-                        timer += Time.deltaTime;
+                        
                         unitSelectionUIRectTransform[i].anchoredPosition = new Vector2(
                             initalPositions.x + (-initalPositions.x * animCurve.Evaluate((maxTimer - (timer - buffer * i)) / maxTimer)), 
                             unitSelectionUIRectTransform[i].anchoredPosition.y);
@@ -124,6 +142,11 @@ public class UnitSelectionSpawner : MonoBehaviour
                 if (timer - buffer * (maxCardCount - 1) > maxTimer)
                 {
                     OnUnitSelectionFinished?.Invoke(this, EventArgs.Empty);
+                    foreach (RectTransform rt in unitSelectionUIRectTransform)
+                    {
+                        Destroy(rt.gameObject);
+                    }
+                    unitSelectionUIRectTransform.Clear();
                     state = State.Inactive;
                 }
                 break;
@@ -136,8 +159,19 @@ public class UnitSelectionSpawner : MonoBehaviour
         UnitSelectionUI unitSelectionUI = sender as UnitSelectionUI;
         RectTransform rectTransform = unitSelectionUI.GetComponent<RectTransform>();
 
+        for (int i = 0; i < unitSelectionUIRectTransform.Count; i++)
+        {
+            UnitSelectionUI allUnitSelectionUI = unitSelectionUIRectTransform[i].GetComponent<UnitSelectionUI>();
+            //allUnitSelectionUI.DisableButtons();
+        }
+
         index = unitSelectionUIRectTransform.IndexOf(rectTransform);
         state = State.Ending; 
         timer = 0;
+    }
+
+    private void CameraController_OnInventorySceneEnter(object sender, EventArgs e)
+    {
+        SpawnCards();
     }
 }

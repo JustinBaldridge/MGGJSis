@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Natsumi
   title: Fairy
-  description: 
+  description: Moves and takes 2-4 spaces diagonally. Jumps pieces.
   tier: 2
   characterSprite: {fileID: 21300000, guid: 5e62f7d1fa52d8e42810dd46fdcca7f6, type: 3}
   icon: {fileID: 21300000, guid: 3145dca63440607449d13a2393d01605, type: 3}
+  movementExample: {fileID: 21300000, guid: 5660749b994f1324791618df66f050dd, type: 3}
   primaryColor: {r: 0.96470594, g: 0.45882356, b: 0.4784314, a: 1}
   secondaryColor: {r: 0.75294125, g: 0.7960785, b: 0.86274517, a: 1}

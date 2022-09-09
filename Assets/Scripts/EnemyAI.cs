@@ -79,7 +79,11 @@ public class EnemyAI : MonoBehaviour
         foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
         {
             BaseAction bestBaseAction = enemyUnit.GetUnitAction();
-            EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
+            VirtualBoard currentBoard = BoardAnalysis.Instance.GetCurrentBoard();
+            VirtualBoard testBoard = new VirtualBoard(currentBoard);
+            Debug.Log("EnemyAI.cs");
+            Debug.Log(testBoard);
+            EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(testBoard);
 
             if (bestEnemyAIAction != null)
             {

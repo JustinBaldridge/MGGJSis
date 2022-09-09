@@ -1,5 +1,6 @@
 using System; 
 
+[Serializable]
 public struct GridPosition : IEquatable<GridPosition>
 {
     public int x;

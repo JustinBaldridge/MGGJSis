@@ -221,6 +221,8 @@ public class TransitionAnimation : MonoBehaviour
         mizukiTransform.position = mizukiPosition;
         mayaTransform.gameObject.SetActive(true);
         mizukiTransform.gameObject.SetActive(true);
+        mayaAnimator.CrossFade("Idle", 0);
+        mizukiAnimator.CrossFade("BattleFrame", 0);
         startEndAnim = false;
         state = State.Idle;
     }

@@ -202,6 +202,31 @@ public abstract class BaseAction : MonoBehaviour
         }
         
     }
+    public EnemyAIAction GetRandomEnemyAIAction(VirtualBoard virtualBoard)
+    {
+        List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();
+
+        List<GridPosition> validActionGridPositionList = GetValidActionGridPositionList();
+
+        foreach (GridPosition testGridPosition in validActionGridPositionList)
+        {
+            EnemyAIAction enemyAIAction = GetEnemyAIAction(unit.GetGridPosition(), testGridPosition, new VirtualBoard(virtualBoard));
+            enemyAIActionList.Add(enemyAIAction);
+        }
+
+        if (enemyAIActionList.Count > 0)
+        {
+            
+            
+            return enemyAIActionList[0];
+        }
+        else
+        {
+            // No possible Enemy AI Action
+            return null;
+        }
+
+    }
 
     public virtual EnemyAIAction GetEnemyAIAction(GridPosition startGridPosition, GridPosition testGridPosition, VirtualBoard virtualBoard)
     {

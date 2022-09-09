@@ -89,7 +89,7 @@ public class EnemyAI : MonoBehaviour
             Debug.Log("lol rolled");
             Unit enemyUnit = enemyUnits[Random.Range(0, enemyUnits.Count)];
                 BaseAction bestBaseAction = enemyUnit.GetUnitAction();
-                EnemyAIAction bestEnemyAIAction = bestBaseAction.GetBestEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
+                EnemyAIAction bestEnemyAIAction = bestBaseAction.GetRandomEnemyAIAction(new VirtualBoard(BoardAnalysis.Instance.GetCurrentBoard()));
 
                 if (bestEnemyAIAction != null)
                 {

@@ -6,13 +6,18 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance {get; private set;}
-
+    
     public event EventHandler OnAllEnemiesDefeated;
+    public event EventHandler OnKingTaken;
+
     private List<Unit> unitList;
     private List<Unit> friendlyUnitList;
     private List<Unit> enemyUnitList;
 
-    [SerializeField] List<GameObject> enemySpawnPrefab;
+    [SerializeField] List<GameObject> enemySpawnPrefabStageZero;
+    [SerializeField] List<GameObject> enemySpawnPrefabStageOne;
+    [SerializeField] List<GameObject> enemySpawnPrefabStageTwo;
+    [SerializeField] List<GameObject> enemySpawnPrefabStageThree;
 
     bool friendlyUnitTaken = false; 
 
@@ -45,7 +50,6 @@ public class UnitManager : MonoBehaviour
     {
         Unit unit = sender as Unit;
 
-        Debug.Log(unit + " spawned");
         unitList.Add(unit);
         if (unit.IsEnemy())
         {
@@ -61,7 +65,6 @@ public class UnitManager : MonoBehaviour
     {
         Unit unit = sender as Unit;
         
-        Debug.Log(unit + " spawned");
         unitList.Remove(unit);
         if (unit.IsEnemy())
         {
@@ -76,19 +79,21 @@ public class UnitManager : MonoBehaviour
         {
             friendlyUnitTaken = true;
             friendlyUnitList.Remove(unit);
+
+            if (unit.TryGetComponent<KingAction>(out KingAction kingAction))
+            {
+                OnKingTaken?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
     private void CameraController_OnInventorySceneEnter(object sender, EventArgs e)
     {
-        //List<Unit> unitsToRemove = new List<Unit>();
-        // Clear ALl Units
-        //foreach (Unit unit in friendlyUnitList)
-        //{
-            //unitsToRemove.Add(unit);
-        //    friendlyUnitList.Remove(unit);
-        //    Destroy(unit.gameObject);
-        //}
+        ClearAllUnits();
+    }
+
+    private void ClearAllUnits()
+    {
         while (unitList.Count > 0)
         {
             Unit unit = unitList[0];
@@ -110,17 +115,34 @@ public class UnitManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        Instantiate(enemySpawnPrefab[UnityEngine.Random.Range(0, enemySpawnPrefab.Count)]);
+        friendlyUnitTaken = false;
+        switch (GameProgression.Instance.GetDifficultyStage())
+        {
+            case -1:
+                Instantiate(enemySpawnPrefabStageZero[UnityEngine.Random.Range(0, enemySpawnPrefabStageZero.Count)]);
+                break;
+            case 0:
+                Instantiate(enemySpawnPrefabStageOne[UnityEngine.Random.Range(0, enemySpawnPrefabStageOne.Count)]); 
+                break;
+            case 1:
+                Instantiate(enemySpawnPrefabStageTwo[UnityEngine.Random.Range(0, enemySpawnPrefabStageTwo.Count)]);
+                break;
+            default:
+            case 2:
+                Instantiate(enemySpawnPrefabStageThree[UnityEngine.Random.Range(0, enemySpawnPrefabStageThree.Count)]);
+                break;
+        }
+        
     }
 
     private void ContinueArrow_OnAnyContinue(object sender, EventArgs e)
     {
-        friendlyUnitTaken = false;
         SpawnEnemies();
     }
 
     private void StartMenu_OnStartGame(object sender, EventArgs e)
     {
+        ClearAllUnits();
         SpawnEnemies();
     }
 

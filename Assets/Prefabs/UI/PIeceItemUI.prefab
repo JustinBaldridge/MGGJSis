@@ -801,6 +801,7 @@ MonoBehaviour:
   - {fileID: 3646452725961583712}
   - {fileID: 6554509777968832617}
   - {fileID: 279266541928619283}
+  selectedSound: {fileID: 8300000, guid: 80aba0b8bd1efe140b3be7e4c467f896, type: 3}
 --- !u!1 &7023189870256689607
 GameObject:
   m_ObjectHideFlags: 0

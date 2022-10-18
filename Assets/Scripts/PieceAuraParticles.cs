@@ -31,6 +31,7 @@ public class PieceAuraParticles : MonoBehaviour
         PieceItemUI.OnAnyPieceItemSelected += PieceItemUI_OnAnyPieceItemSelected;
         UnitStartingPlacementIndicatorUI.OnAnyStartingPlacementPlaced += UnitStartingPlacementIndicatorUI_OnAnyStartingPlacementPlaced;
         ContinueArrow.OnAnyContinue += ContinueArrow_OnAnyContinue;
+        CameraController.Instance.OnInventorySceneEnter += CameraController_OnInventorySceneEnter;
     }
 
     // Update is called once per frame
@@ -63,7 +64,19 @@ public class PieceAuraParticles : MonoBehaviour
     private void PieceItemUI_OnAnyPieceItemSelected(object sender, EventArgs e)
     {
         PieceItemUI pieceItemUi = sender as PieceItemUI;
-        heldPiece = pieceItemUi.GetPiece();
+        PieceBase testPiece = pieceItemUi.GetPiece();
+
+        if (heldPiece != null)
+        {
+            if (testPiece.Title.Equals(heldPiece.Title))
+            {
+                heldPiece = null;
+                Hide();
+                return;
+            }
+        }
+        
+        heldPiece = testPiece;
 
         Color color = heldPiece.PrimaryColor;
         Color secondaryColor = heldPiece.SecondaryColor;
@@ -88,6 +101,12 @@ public class PieceAuraParticles : MonoBehaviour
 
     private void ContinueArrow_OnAnyContinue(object sender, EventArgs e)
     {
+        Hide();
+    }
+
+    private void CameraController_OnInventorySceneEnter(object sender, EventArgs e)
+    {
+        heldPiece = null;
         Hide();
     }
 }

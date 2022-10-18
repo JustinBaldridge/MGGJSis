@@ -11,6 +11,7 @@ public class UnitSelectionSpawner : MonoBehaviour
     public event EventHandler OnUnitSelectionFinished;
 
     [SerializeField] GameObject unitSelectionUIPrefab;
+    [SerializeField] GameObject instructionText;
     [SerializeField] AnimationCurve animCurve;
 
     [SerializeField] float buffer = 0.5f;
@@ -51,6 +52,7 @@ public class UnitSelectionSpawner : MonoBehaviour
         //SpawnCards();
         UnitSelectionUI.OnAnyPieceAddSelected += UnitSelectionUI_OnAnyPieceAddSelected;
         CameraController.Instance.OnInventorySceneEnter += CameraController_OnInventorySceneEnter;
+        instructionText.SetActive(false);
     }
 
     public void SpawnCards()
@@ -68,7 +70,7 @@ public class UnitSelectionSpawner : MonoBehaviour
             GameObject unitSelectionUIGameObject = Instantiate(unitSelectionUIPrefab, this.transform);
             unitSelectionUIRectTransform.Add(unitSelectionUIGameObject.GetComponent<RectTransform>());
             
-            unitSelectionUIRectTransform[i].anchoredPosition = new Vector2(-300, 100 - (100 * i));
+            unitSelectionUIRectTransform[i].anchoredPosition = new Vector2(-300, 55 - (100 * i));
             
             UnitSelectionUI unitSelectionUI = unitSelectionUIRectTransform[i].GetComponent<UnitSelectionUI>();
 
@@ -108,6 +110,7 @@ public class UnitSelectionSpawner : MonoBehaviour
                 if (timer - buffer * (maxCardCount - 1) > maxTimer) state = State.ActivateCards;
                 break;
             case State.ActivateCards:
+                instructionText.SetActive(true);
                 foreach (RectTransform rectTransform in unitSelectionUIRectTransform)
                 {
                     UnitSelectionUI unitSelectionUI = rectTransform.GetComponent<UnitSelectionUI>();
@@ -165,6 +168,8 @@ public class UnitSelectionSpawner : MonoBehaviour
             //allUnitSelectionUI.DisableButtons();
         }
 
+    
+        instructionText.SetActive(false);
         index = unitSelectionUIRectTransform.IndexOf(rectTransform);
         state = State.Ending; 
         timer = 0;

@@ -33,7 +33,8 @@ public class UnitActionSystem : MonoBehaviour
     private void Start()
     {
         UnitManager.Instance.OnAllEnemiesDefeated += UnitManager_OnAllEnemiesDefeated;
-        UnitSpawner.Instance.OnSpawningFinished += UnitDespawner_OnSpawningFinished;
+        UnitManager.Instance.OnKingTaken += UnitManager_OnKingTaken;
+        UnitSpawner.Instance.OnSpawningFinished += UnitSpawner_OnSpawningFinished;
         SetSelectedUnit(selectedUnit);
     }
 
@@ -180,8 +181,23 @@ public class UnitActionSystem : MonoBehaviour
         SetOffline();
     }
 
-    private void UnitDespawner_OnSpawningFinished(object sender, EventArgs e)
+    private void UnitManager_OnKingTaken(object sender, EventArgs e)
     {
+        SetOffline();
+    }
+
+    private void UnitSpawner_OnSpawningFinished(object sender, EventArgs e)
+    {
+        List<Unit> friendlyUnits = UnitManager.Instance.GetFriendlyUnitList();
+
+        foreach (Unit unit in friendlyUnits)
+        {
+            if (unit.TryGetComponent<KingAction>(out KingAction kingAction))
+            {
+                SetSelectedUnit(unit);
+                break;
+            }
+        }
         ClearOffline();
     }
 }

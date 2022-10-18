@@ -44,18 +44,6 @@ public class UnitStartingPositionUI : MonoBehaviour
 
         return placementList;
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            List<UnitStartingPlacement> placementList = GetStartingPlacements();
-            foreach (UnitStartingPlacement usp in placementList)
-            {
-                Debug.Log("UnitStartingPositionUI.cs  Piece: " + usp.piece + ", at gridPosition: " + usp.gridPosition);
-            }
-        }
-    }
 }
 
 public class UnitStartingPlacement

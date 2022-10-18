@@ -44,6 +44,7 @@ public abstract class BaseAction : MonoBehaviour
     [SerializeField] protected PieceBase piece;
     [SerializeField] protected AnimationCurve movePiece;
     [SerializeField] protected AnimationCurve attackPiece;
+    [SerializeField] protected AudioClip takenSound;
 
     protected AnimationCurve animCurve;
     protected virtual void Awake()
@@ -169,8 +170,8 @@ public abstract class BaseAction : MonoBehaviour
     protected void OnActionComplete()
     {
         isActive = false;
-        onActionComplete();
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
+        onActionComplete();
     }
 
     public Unit GetUnit()
@@ -216,8 +217,7 @@ public abstract class BaseAction : MonoBehaviour
 
         if (enemyAIActionList.Count > 0)
         {
-            
-            
+            enemyAIActionList.Sort((EnemyAIAction a, EnemyAIAction b) => b.randomValue - a.randomValue);
             return enemyAIActionList[0];
         }
         else
@@ -234,7 +234,7 @@ public abstract class BaseAction : MonoBehaviour
         int currentBoardState = BoardAnalysis.Instance.GetBoardState();
         int possibleBoardState = currentBoardState;
 
-        Debug.Log("BaseAction.cs  testing testGridPosition: " + testGridPosition.ToString());
+        //Debug.Log("BaseAction.cs  testing testGridPosition: " + testGridPosition.ToString());
         ResetGridPositionLists();
 
         // if taking a piece
@@ -245,8 +245,17 @@ public abstract class BaseAction : MonoBehaviour
             {
                 if (unit.TryGetComponent<BaseAction>(out BaseAction baseAction))
                 {
+                    if (unit.TryGetComponent<KingAction>(out KingAction kingAction))
+                    {
+                        return new EnemyAIAction {
+                            gridPosition = testGridPosition,
+                            actionValue = 99999,
+                            randomValue = UnityEngine.Random.Range(0, 100),
+                        };
+                    }
                     possibleBoardState += BoardAnalysis.GetPieceValue(baseAction.GetPiece());
                 }
+
             }
         }
 
@@ -263,7 +272,7 @@ public abstract class BaseAction : MonoBehaviour
         virtualBoard.MovePiece(startGridPosition, testGridPosition);
         List<GridPosition> possibleAttackers = BoardAnalysis.GetPiecesAttackingAtGridPosition(this, testGridPosition, virtualBoard, virtualBoard.GetAllAllyUnitsOnBoard());
         
-        Debug.Log("BaseAction.cs  possibleAttackers Count: " + possibleAttackers.Count);
+        //Debug.Log("BaseAction.cs  possibleAttackers Count: " + possibleAttackers.Count);
         foreach (GridPosition gp in possibleAttackers)
         {
             if (!virtualBoard.HasAnyUnitOnGridPosition(gp)) continue;
@@ -277,16 +286,17 @@ public abstract class BaseAction : MonoBehaviour
 
             if (unitAttackPositions.Contains(testGridPosition))
             {
-                adjustedPointValue -= BoardAnalysis.GetPieceValue(action.GetPiece());
+                adjustedPointValue -= BoardAnalysis.GetPieceValue(action.GetPiece()) / 5;
             }
         }
-        Debug.Log("BaseAction.cs  adjustedPointValue, check attackers: " + adjustedPointValue);
+        //Debug.Log("BaseAction.cs  adjustedPointValue, check attackers: " + adjustedPointValue);
 
         // Check if the piece would be defended at this position
         List<GridPosition> possibleDefenders = BoardAnalysis.GetPiecesAttackingAtGridPosition(this, testGridPosition, virtualBoard, virtualBoard.GetAllEnemyUnitsOnBoard());
         // TODO:  Possible defenders, similar to above, but do a VALUE - pieceValue, which makes it incentivse being defended by weaker pieces
         //     note: for the king, reduce the sampled value so that pieces defended by the king arent like destroying the actionValue economy
-        Debug.Log("BaseAction.cs  possibleDefenders Count: " + possibleDefenders.Count);
+        
+        //Debug.Log("BaseAction.cs  possibleDefenders Count: " + possibleDefenders.Count);
         foreach (GridPosition gp in possibleDefenders)
         {
             if (!virtualBoard.HasAnyUnitOnGridPosition(gp)) continue;
@@ -308,16 +318,18 @@ public abstract class BaseAction : MonoBehaviour
                 {
                     pieceValue = 10;
                 }
-                adjustedPointValue += pieceValueConstant - pieceValue;
+                adjustedPointValue += pieceValueConstant - (pieceValue / 5);
             }
         }
 
-        int totalActionValue = boardStateDiff + possibleMoves + possibleAttacks + adjustedPointValue;
-        //Debug.Log("BaseAction.cs  totalActionValue: " + totalActionValue);
+        int addRandomValue = UnityEngine.Random.Range(0, 100 - ((GameProgression.Instance.GetDifficultyStage() + 1) * 30));
+        int totalActionValue = boardStateDiff + possibleMoves + possibleAttacks + adjustedPointValue + addRandomValue;
+        //Debug.Log("BaseAction.cs  totalActionValue: " + totalActionValue + " randomValue: " + addRandomValue);
 
         return new EnemyAIAction{
             gridPosition = testGridPosition,
             actionValue = totalActionValue,
+            randomValue = UnityEngine.Random.Range(0, 100),
         };
     }
 

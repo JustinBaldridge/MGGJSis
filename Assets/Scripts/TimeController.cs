@@ -35,7 +35,7 @@ public class TimeController : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 1f;
+            ResetScale();
             isActive = false;
         }
     }
@@ -47,5 +47,17 @@ public class TimeController : MonoBehaviour
         Time.timeScale = 0;
         isActive = true;
         OnAnyTimeControllerFreezeFrame?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void TakingKing()
+    {
+        Debug.Log("TimeController.cs  Slowing game");
+        timer = 0;
+        Time.timeScale = 0.5f;
+    }
+
+    public void ResetScale()
+    {
+        Time.timeScale = 1;
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Mizuki
   title: Princess
-  description: Moves and takes up to 4 spaces in all direction.
+  description: Moves and takes up to 3 spaces in all direction.
   tier: 3
   characterSprite: {fileID: 21300000, guid: 32d59341193e0994a93210ab59f76d7b, type: 3}
   icon: {fileID: 21300000, guid: 38affe8b0fa9b394a8802cad6ea9090a, type: 3}

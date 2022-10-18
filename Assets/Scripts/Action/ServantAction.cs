@@ -37,7 +37,10 @@ public class ServantAction : BaseAction
                 modifiedMaxTimer = maxMoveTimer;
                 animCurve = movePiece;
 
-                ActionStart(onActionComplete);
+                ActionStart(new Action(() => {
+                    BoardAnalysis.Instance.GetCurrentBoard().AddUnitToGridPosition(oldGridPosition, unit);
+                    onActionComplete?.Invoke();
+                }));
                 return;
             }
         }

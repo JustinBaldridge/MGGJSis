@@ -17,7 +17,7 @@ public class GridSystemVisual : MonoBehaviour
     public enum GridVisualType
     {
         White,
-        Blue,
+        Green,
         Red,
         RedSoft,
         Yellow
@@ -60,6 +60,7 @@ public class GridSystemVisual : MonoBehaviour
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        BoardAnalysis.Instance.OnBoardUpdated += BoardAnalysis_OnBoardUpdated;
         UpdateGridVisual();
     }
 
@@ -172,7 +173,7 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(
             invalidAttacks, GridVisualType.RedSoft);
         ShowGridPositionList(
-            selectedAction.GetValidAllyTargetGridPositionList(), GridVisualType.Blue);
+            selectedAction.GetValidAllyTargetGridPositionList(), GridVisualType.Green);
     }
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
@@ -199,8 +200,19 @@ public class GridSystemVisual : MonoBehaviour
         }
         if (TurnSystem.Instance.IsPlayerTurn())
         {
+            Debug.Log("GridSystemVisual.cs  " + BoardAnalysis.Instance.GetCurrentBoard().ToString());
             UpdateGridVisual();
         }
+    }
+
+    private void BoardAnalysis_OnBoardUpdated(object sender, EventArgs e)
+    {
+        if (!TurnSystem.Instance.IsPlayerTurn())
+        {
+            HideAllGridPosition();
+            return;
+        }
+        UpdateGridVisual();
     }
 
     private Color GetGridVisualTypeColor(GridVisualType gridVisualType)

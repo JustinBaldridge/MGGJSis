@@ -163,6 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1431063814856132777}
   - component: {fileID: 1484037331434253141}
+  - component: {fileID: 7451679653456217991}
   m_Layer: 0
   m_Name: PrincessBeam
   m_TagString: Untagged
@@ -208,3 +209,15 @@ MonoBehaviour:
   reachDuration: 0.1
   hitDuration: 0.8
   hitStopDuration: 0.15
+--- !u!114 &7451679653456217991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642940698922280728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ed60dea3e874d4cb27f1311d33adec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -92,9 +92,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577643062703493191, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: impactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c47ae959fb5206d4889321f52cf27679, type: 3}
+    - target: {fileID: 5577643062703493191, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
       propertyPath: projectileSpawnPoint
       value: 
       objectReference: {fileID: 7840019199586727650}
+    - target: {fileID: 5577643062703493191, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: projectileSpawnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: c47ae959fb5206d4889321f52cf27679, type: 3}
     - target: {fileID: 7468133496330146802, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
       propertyPath: m_Controller
       value: 

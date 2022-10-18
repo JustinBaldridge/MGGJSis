@@ -11,6 +11,7 @@ public class ContinueArrow : MonoBehaviour//, IPointerEnterHandler, IPointerExit
 
     [SerializeField] Button button;
     [SerializeField] AnimationCurve animCurve;
+    [SerializeField] AudioClip selectedSound; 
 
     [SerializeField] float heightAmplitude;
     [SerializeField] float duration;
@@ -24,6 +25,7 @@ public class ContinueArrow : MonoBehaviour//, IPointerEnterHandler, IPointerExit
         rectTransform = GetComponent<RectTransform>();
         basePosition = rectTransform.anchoredPosition;
         button.onClick.AddListener(() => {
+            SFXPlayer.PlaySound(selectedSound);
             OnAnyContinue?.Invoke(this, EventArgs.Empty);
         });
     }

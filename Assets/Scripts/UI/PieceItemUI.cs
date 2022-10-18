@@ -14,6 +14,7 @@ public class PieceItemUI : MonoBehaviour, IPointerEnterHandler
     [SerializeField] TextMeshProUGUI characterName;
     [SerializeField] TextMeshProUGUI pieceTitle;
     [SerializeField] List<Image> starIndicators;
+    [SerializeField] AudioClip selectedSound;
 
     PieceBase piece;
 
@@ -21,6 +22,7 @@ public class PieceItemUI : MonoBehaviour, IPointerEnterHandler
     {
         Button btn = GetComponent<Button>();
         btn.onClick.AddListener(() => {
+            SFXPlayer.PlaySound(selectedSound);
             OnAnyPieceItemSelected?.Invoke(this, EventArgs.Empty);
         });
     }

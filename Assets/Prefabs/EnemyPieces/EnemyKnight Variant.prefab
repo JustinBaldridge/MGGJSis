@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2130217667196924322, guid: 4a27aa8ace3e7814e9c629c73094b844, type: 3}
+      propertyPath: impactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ac584bfcc58de7041b928885d3b8dbd3, type: 3}
     - target: {fileID: 3986788094243369495, guid: 4a27aa8ace3e7814e9c629c73094b844, type: 3}
       propertyPath: m_Controller
       value: 

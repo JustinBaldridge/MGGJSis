@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7527522888869187842}
   - component: {fileID: 6574778543425064514}
+  - component: {fileID: 1675693478555233369}
   m_Layer: 0
   m_Name: MarksmanProjectile
   m_TagString: Untagged
@@ -53,6 +54,18 @@ MonoBehaviour:
     m_RotationOrder: 4
   speed: 32
   rotateOnSpawn: 1
+--- !u!114 &1675693478555233369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754597430382584245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ed60dea3e874d4cb27f1311d33adec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6204507001350632807
 GameObject:
   m_ObjectHideFlags: 0

@@ -449,6 +449,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  selectedSound: {fileID: 8300000, guid: 41a8a77849e4fd14c80e5fc150f50396, type: 3}
 --- !u!114 &5767188599303694295
 MonoBehaviour:
   m_ObjectHideFlags: 0

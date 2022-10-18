@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 0
+  takenSound: {fileID: 8300000, guid: 35a5782aef0f70444813aa9f40abba90, type: 3}
 --- !u!61 &1177340871778961428
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -330,6 +331,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  takenSound: {fileID: 0}
 --- !u!114 &8587958231474153951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +382,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trailRenderer: {fileID: 1198319505774667224}
   projectileSpawnPoint: {fileID: 0}
+  impactSound: {fileID: 0}
+  projectileSpawnSound: {fileID: 0}
 --- !u!96 &893559148866148843
 TrailRenderer:
   serializedVersion: 3

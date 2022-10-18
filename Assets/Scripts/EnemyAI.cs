@@ -77,14 +77,14 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete)
     {
-        int rng;
-        rng = Random.Range(0, 100);
+        //int rng;
+        //rng = Random.Range(0, 100);
 
         // Random Selection
         List<Unit> enemyUnits = UnitManager.Instance.GetEnemyUnitList();
 
         List<EnemyAIKeyValuePair> enemyAIBestActionsList = new List<EnemyAIKeyValuePair>();
-        if (difficulty <= rng)
+        /*if (difficulty <= rng)
         {
             Debug.Log("lol rolled");
             Unit enemyUnit = enemyUnits[Random.Range(0, enemyUnits.Count)];
@@ -103,8 +103,8 @@ public class EnemyAI : MonoBehaviour
             
         }
         else
-        {
-            Debug.Log("lol not rolled");
+        {*/
+            //Debug.Log("lol not rolled");
             foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
             {
                 BaseAction bestBaseAction = enemyUnit.GetUnitAction();
@@ -120,36 +120,24 @@ public class EnemyAI : MonoBehaviour
                     });
                 }
             }
-        }
+        //}
 
         if (enemyAIBestActionsList.Count == 0) return false;
 
         EnemyAIKeyValuePair kvp = enemyAIBestActionsList[0];
         foreach (EnemyAIKeyValuePair enemyAIkvp in enemyAIBestActionsList)
         {
-            if (difficulty <= rng)
+            Debug.Log("EnemyAI.cs  Key Value Pair - Unit: " + enemyAIkvp.enemyAIUnit + " targetGridPosition: " + enemyAIkvp.enemyAIAction.gridPosition + " actionValue: " + enemyAIkvp.enemyAIAction.actionValue);
+            if (enemyAIkvp.enemyAIAction.actionValue > kvp.enemyAIAction.actionValue)
             {
-                Debug.Log( "was random"+"EnemyAI.cs  Key Value Pair - Unit: " + enemyAIkvp.enemyAIUnit + " targetGridPosition: " + enemyAIkvp.enemyAIAction.gridPosition + " actionValue: " + enemyAIkvp.enemyAIAction.actionValue);
-                if (enemyAIkvp.randomness > kvp.randomness)
-                {
-                    kvp = enemyAIkvp;
-                }
-            }
-            else
-            {
-                Debug.Log("EnemyAI.cs  Key Value Pair - Unit: " + enemyAIkvp.enemyAIUnit + " targetGridPosition: " + enemyAIkvp.enemyAIAction.gridPosition + " actionValue: " + enemyAIkvp.enemyAIAction.actionValue);
-                if (enemyAIkvp.enemyAIAction.actionValue > kvp.enemyAIAction.actionValue)
-                {
-                    kvp = enemyAIkvp;
-                }
+                kvp = enemyAIkvp;
             }
         }
 
         if (kvp != null)
         {
-            
-                kvp.enemyAIUnit.GetUnitAction().TakeAction(kvp.enemyAIAction.gridPosition, onEnemyAIActionComplete);
-                return true;
+            kvp.enemyAIUnit.GetUnitAction().TakeAction(kvp.enemyAIAction.gridPosition, onEnemyAIActionComplete);
+            return true;
         }
         return false;
     }

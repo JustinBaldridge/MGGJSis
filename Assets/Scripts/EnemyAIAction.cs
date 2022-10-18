@@ -6,6 +6,7 @@ public class EnemyAIAction
 {
     public GridPosition gridPosition;
     public int actionValue;
+    public int randomValue;
 }
 
 public class EnemyAIKeyValuePair

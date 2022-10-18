@@ -10,7 +10,8 @@ public class UnitDespawner : MonoBehaviour
     public event EventHandler OnDespawningFinished;
 
     [SerializeField] GameObject lightBeamPrefab;
-    
+    [SerializeField] AudioClip lightBeamSound;
+
     [SerializeField] float cooldownTimer;
     [SerializeField] float maxTimer;
     enum State 
@@ -56,6 +57,7 @@ public class UnitDespawner : MonoBehaviour
                 if (timer > cooldownTimer)
                 {
                     state = State.Despawning;
+                    SFXPlayer.PlaySound(lightBeamSound);
                     //maxTimer = startingPlacementsList.Count * unitSpawnTimeAddition;
                     //index = 0;
                 }

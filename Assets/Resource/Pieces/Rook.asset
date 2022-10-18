@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Shina
   title: Rook
-  description: Moves and takes up to 8 spaces orthogonally.
+  description: Moves and takes up to 7 spaces orthogonally.
   tier: 3
   characterSprite: {fileID: 21300000, guid: 537425e09d0bf5145affa78ae0a19c8f, type: 3}
   icon: {fileID: 21300000, guid: 2829a6d0b763a444299ce69b2aaf12e8, type: 3}

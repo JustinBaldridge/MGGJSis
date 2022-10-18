@@ -9,6 +9,8 @@ public class TeamTierUI : MonoBehaviour
 
     [SerializeField] GameObject starIndicatorPrefab;
     [SerializeField] int baseStarCount;
+
+    [SerializeField] Transform starGridParent;
     int maxStars;
     int currentStars;
     void Awake()
@@ -27,6 +29,7 @@ public class TeamTierUI : MonoBehaviour
     {
         UnitStartingPlacementIndicatorUI.OnAnyStartingPlacementPlaced += UnitStartingPlacementIndicatorUI_OnAnyStartingPlacementPlaced;
         UnitManager.Instance.OnAllEnemiesDefeated += UnitManager_OnAllEnemiesDefeated;
+        UnitSelectionSpawner.Instance.OnUnitSelectionFinished += UnitSelectionSpawner_OnUnitSelectionFinished;
 
         UpdateShownStars();
     }
@@ -40,6 +43,14 @@ public class TeamTierUI : MonoBehaviour
     {
         maxStars = baseStarCount + GameProgression.Instance.GetLevelsCompleted() + GameProgression.Instance.GetBonusStars();
         UpdateStarCount();
+        UpdateShownStars();
+    }
+
+    private void UnitSelectionSpawner_OnUnitSelectionFinished(object sender , EventArgs e)
+    {
+        //maxStars = baseStarCount + GameProgression.Instance.GetLevelsCompleted() + GameProgression.Instance.GetBonusStars();
+        //UpdateStarCount();
+        UpdateShownStars();
     }
 
     void UpdateShownStars()
@@ -56,7 +67,7 @@ public class TeamTierUI : MonoBehaviour
 
         List<StarIndicatorUI> starIndicatorList = new List<StarIndicatorUI>();
 
-        foreach (Transform child in transform)
+        foreach (Transform child in starGridParent)
         {
             StarIndicatorUI starIndicatorUI = child.GetComponent<StarIndicatorUI>();
             starIndicatorList.Add(starIndicatorUI);
@@ -79,14 +90,14 @@ public class TeamTierUI : MonoBehaviour
     void UpdateStarCount()
     {
         // Clear existing items
-        foreach (Transform child in transform)
+        foreach (Transform child in starGridParent)
         {
             Destroy(child.gameObject);
         }
 
         for (int i = 0; i < maxStars; i++)
         {
-            GameObject starIndicatorTransform = Instantiate(starIndicatorPrefab, transform.position, Quaternion.identity, transform);
+            GameObject starIndicatorTransform = Instantiate(starIndicatorPrefab, transform.position, Quaternion.identity, starGridParent);
         }
 
         UpdateShownStars();

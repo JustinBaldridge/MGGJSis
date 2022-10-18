@@ -14,12 +14,13 @@ public class Unit : MonoBehaviour
     public event EventHandler OnUnitDamaged;
 
     [SerializeField] private bool isEnemy;
-
+    [SerializeField] AudioClip takenSound;
     private GridPosition gridPosition;
     //private HealthSystem healthSystem;
     private BaseAction unitAction;
 
     private int actionPoints = ACTION_POINTS_MAX;
+
 
     private void Awake()
     {
@@ -100,6 +101,7 @@ public class Unit : MonoBehaviour
     public void TakePiece()
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        SFXPlayer.PlaySound(takenSound);
         Destroy(gameObject);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);

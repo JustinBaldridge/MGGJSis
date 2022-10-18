@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Wakana
   title: Bishop
-  description: Moves and takes up to 8 spaces diagonally.
+  description: Moves and takes up to 7 spaces diagonally.
   tier: 2
   characterSprite: {fileID: 21300000, guid: 7cb45fe9764f132488283b5eb1a1c085, type: 3}
   icon: {fileID: 21300000, guid: 3e628dab44d3e1a47b3eaedec46225ff, type: 3}

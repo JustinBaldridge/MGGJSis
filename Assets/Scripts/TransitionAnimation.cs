@@ -9,6 +9,7 @@ public class TransitionAnimation : MonoBehaviour
 
     public event EventHandler OnStartingAnimationFinished;
     public event EventHandler OnEndingAnimationFinished;
+    public event EventHandler OnGameFinished;
 
     [SerializeField] Transform mayaTransform;
     [SerializeField] Transform mizukiTransform;
@@ -19,6 +20,7 @@ public class TransitionAnimation : MonoBehaviour
     [SerializeField] Vector3 offScreenPosition; 
     [SerializeField] Vector3 mayaOffScreenPosition; 
     [SerializeField] Vector3 mizukiOffScreenPosition; 
+    [SerializeField] Vector3 finalePosition;
 
     [SerializeField] float moveSpeed; 
 
@@ -29,7 +31,8 @@ public class TransitionAnimation : MonoBehaviour
         MeetPause,
         MovingOffscreen,
         MovingOnscreen,
-        FinishingOnscreen
+        FinishingOnscreen,
+        FinaleIntro,
     }
 
     State state = State.Idle; 
@@ -63,6 +66,7 @@ public class TransitionAnimation : MonoBehaviour
         UnitDespawner.Instance.OnDespawningFinished += UnitDespawner_OnDespawningFinished;   
         CameraController.Instance.OnCombatSceneEnter += CameraController_OnCombatSceneEnter;
         UnitSpawner.OnAnySpawningStarted += UnitSpawner_OnAnySpawningStarted;
+        BackgroundSmoke.Instance.OnWinScreenEntered += BackgroundSmoke_OnWinScreenEntered;
 
         mayaTransform.gameObject.SetActive(false);
         mizukiTransform.gameObject.SetActive(false);
@@ -143,14 +147,35 @@ public class TransitionAnimation : MonoBehaviour
                     if (!startEndAnim)
                     {
                         startEndAnim = true;
-                        OnEndingAnimationFinished?.Invoke(this, EventArgs.Empty);
+                        if (!GameProgression.Instance.IsGameComplete())
+                        {
+                            OnEndingAnimationFinished?.Invoke(this, EventArgs.Empty);
+                        }
+                        
                     }
                 }
                 if (timer > maxTimer)
                 {
-                    //isActive = false; 
-                    mayaTransform.gameObject.SetActive(false);
-                    mizukiTransform.gameObject.SetActive(false);
+                    if (GameProgression.Instance.IsGameComplete())
+                    {
+                        OnGameFinished?.Invoke(this, EventArgs.Empty);
+                        mayaTransform.localPosition = Vector3.zero;
+                        mizukiTransform.localPosition = Vector3.zero;
+                        transform.position = finalePosition;
+                        timer = 0;
+                        maxTimer = 3f;
+
+                        mayaAnimator.CrossFade("RunningHoldHands", 0);
+                        mizukiAnimator.CrossFade("RunningHoldHands", 0);
+
+                        state = State.FinaleIntro;
+                    }
+                    else
+                    {
+                        //isActive = false; 
+                        mayaTransform.gameObject.SetActive(false);
+                        mizukiTransform.gameObject.SetActive(false);
+                    }
                 }
                 break;
             case State.MovingOnscreen:
@@ -252,5 +277,12 @@ public class TransitionAnimation : MonoBehaviour
         {
             mizukiTransform.gameObject.SetActive(false);
         }
+    }
+
+    void BackgroundSmoke_OnWinScreenEntered(object sender, EventArgs e)
+    {
+        mayaTransform.gameObject.SetActive(false);
+        mizukiTransform.gameObject.SetActive(false);
+        isActive = false;
     }
 }

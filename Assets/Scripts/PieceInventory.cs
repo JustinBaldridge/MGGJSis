@@ -32,6 +32,7 @@ public class PieceInventory : MonoBehaviour
     private void Start()
     {
         UnitSelectionUI.OnAnyPieceAddSelected += UnitSelectionUI_OnAnyPieceAddSelected;
+        StartMenu.Instance.OnStartGame += StartMenu_OnStartGame;
     }
 
     public List<PieceBase> GetOwnedPieces()
@@ -45,11 +46,24 @@ public class PieceInventory : MonoBehaviour
         OnInventoryUpdated?.Invoke(this, EventArgs.Empty);
     }
 
+    void ClearInventory()
+    {
+        ownedPieces.Clear();
+        ownedPieces.Add(kingPiece);
+        ownedPieces.Add(princessPiece);   
+        OnInventoryUpdated?.Invoke(this, EventArgs.Empty);
+    }
+
     private void UnitSelectionUI_OnAnyPieceAddSelected(object sender, EventArgs e)
     {
         foreach (PieceBase p in ownedPieces)
         {
             Debug.Log("PieceInventory.cs  " + p.Name);
         }
+    }
+
+    private void StartMenu_OnStartGame(object sender, EventArgs e)
+    {
+        ClearInventory();
     }
 }

@@ -24,6 +24,7 @@ public class UnitSelectionUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] List<Image> tierStarSprites;
 
     [SerializeField] AnimationCurve animCurve;
+    [SerializeField] AudioClip selectedSound; 
 
     Vector2 targetPosition;
 
@@ -74,6 +75,7 @@ public class UnitSelectionUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void SelectPiece()
     {
         PieceInventory.Instance.AddPiece(piece);
+        SFXPlayer.PlaySound(selectedSound);
         OnAnyPieceAddSelected?.Invoke(this, EventArgs.Empty);
     }
 

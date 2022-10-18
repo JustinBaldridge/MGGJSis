@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: f8658eb4b6e119d4fbd92076f1557c38, type: 2}
+    - target: {fileID: 4401422604060576249, guid: 7f70e3da0b7c89f4799cfc6a56bb546d, type: 3}
+      propertyPath: impactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ac584bfcc58de7041b928885d3b8dbd3, type: 3}
     - target: {fileID: 6928219653300146596, guid: 7f70e3da0b7c89f4799cfc6a56bb546d, type: 3}
       propertyPath: m_RootOrder
       value: 0

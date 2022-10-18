@@ -13,6 +13,7 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
 
     [SerializeField] Image pieceSprite;
     [SerializeField] List<Image> starIndicator;
+    [SerializeField] Image lockedSprite;
 
     [SerializeField] Sprite emptyStar;
     [SerializeField] Sprite fullStar;
@@ -22,6 +23,8 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
 
     [SerializeField] bool locked;
     [SerializeField] PieceBase initialPiece;
+    [SerializeField] AudioClip placedSound;
+    [SerializeField] AudioClip errorSound;
     PieceBase piece;
     float alpha = 1f;
     float minAlpha = .25f;
@@ -34,6 +37,8 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
     void Start()
     {
         ContinueArrow.OnAnyContinue += ContinueArrow_OnAnyContinue;
+        StartMenu.Instance.OnStartGame += StartMenu_OnStartGame;
+
         Initialize();
         UpdatePlacementIndicator();
     }
@@ -55,6 +60,8 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
         {
             piece = initialPiece;
         }
+
+        lockedSprite.enabled = locked;
     }
 
     void Update()
@@ -65,7 +72,6 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
 
         if (!pieceSprite.sprite.Equals(piece?.Sprite))
         {
-            Debug.Log("UnitStartingPlacementIndicatorUI.cs  Previewing");
             float alphaSpeed = 0.5f;
             if (alphaDirection)
             {
@@ -181,9 +187,19 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
     {
         if (locked)
         {  
+            SFXPlayer.PlaySound(errorSound);
             return;
         } 
         PieceBase testPiece = PieceAuraParticles.Instance.GetHeldPiece();
+
+        if (testPiece == null)
+        {
+            piece = null;
+            SFXPlayer.PlaySound(placedSound);
+            UpdatePlacementIndicator();
+            OnAnyStartingPlacementPlaced?.Invoke(this, EventArgs.Empty);
+            return;
+        }
 
         if (piece != null)
         {
@@ -192,13 +208,14 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
             {
                 //Remove Piece
                 piece = null;
+                SFXPlayer.PlaySound(placedSound);
                 UpdatePlacementIndicator();
                 OnAnyStartingPlacementPlaced?.Invoke(this, EventArgs.Empty);
                 return;
             }
         }
         
-
+        
         int currentStars = TeamTierUI.Instance.GetCurrentStars();
         int maxStars = TeamTierUI.Instance.GetMaxStars();
 
@@ -207,17 +224,26 @@ public class UnitStartingPlacementIndicatorUI : MonoBehaviour, IPointerEnterHand
             piece = testPiece;
             Debug.Log("UnitStartingPlacementIndicatorUI.cs  piece Tier: " + piece.Tier + ", maxTierForTile: " + maxTierForTile);
             Debug.Log("UnitStartingPlacementIndicatorUI.cs  piece Tier: " + piece.Tier + ", maxStars: " + maxStars + ", currentStars: " + currentStars);
+            SFXPlayer.PlaySound(placedSound);
             UpdatePlacementIndicator();
             OnAnyStartingPlacementPlaced?.Invoke(this, EventArgs.Empty);
         }
         else
         {
             // Feedback
+            SFXPlayer.PlaySound(errorSound);
         }
     }
 
     private void ContinueArrow_OnAnyContinue(object sender, EventArgs e)
     {
+        UpdatePlacementIndicator();
+    }
+
+    private void StartMenu_OnStartGame(object sender, EventArgs e)
+    {
+        if (!locked) piece = null;
+        previewing = false;
         UpdatePlacementIndicator();
     }
 }

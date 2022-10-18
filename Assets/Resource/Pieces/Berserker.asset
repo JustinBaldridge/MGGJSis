@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: Scarlett
   title: Berserker
   description: "Moves and takes up to 2 spaces in all direction. \n\n- The turn after
-    taking a piece, it can move up to 8 spaces."
+    taking a piece, it can move up to 7 spaces in all directions."
   tier: 3
   characterSprite: {fileID: 21300000, guid: 12e71fb87c5b6c142b4e44a9f1530dae, type: 3}
   icon: {fileID: 21300000, guid: 3de202abe875425498e3e80b802af73d, type: 3}

@@ -41,6 +41,7 @@ public class SpawningLightBeam : MonoBehaviour
             animator.CrossFade("LightBeamExit", 0);
         }
         this.createUnit = createUnit;
+        
     }
 
     public void SpawnUnit()
@@ -58,4 +59,5 @@ public class SpawningLightBeam : MonoBehaviour
         lightLineRenderer.SetPosition(0, new Vector3(0, startPosition, 0));
         lightLineRenderer.SetPosition(1, new Vector3(0, endPosition, 0));
     }
+    
 }

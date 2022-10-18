@@ -9,6 +9,8 @@ public class ScreenShake : MonoBehaviour
     public static ScreenShake Instance {get; private set;}
     private CinemachineImpulseSource cinemachineImpulseSource;
 
+    bool doScreenShake = true;
+
     private void Awake()
     {
         if (Instance != null)
@@ -24,6 +26,14 @@ public class ScreenShake : MonoBehaviour
 
     public void Shake(float intensity = 1f)
     {
-        cinemachineImpulseSource.GenerateImpulse(intensity);
+        if (doScreenShake)
+        {
+            cinemachineImpulseSource.GenerateImpulse(intensity);
+        }   
+    }
+
+    public void SetScreenShake(bool value)
+    {
+        doScreenShake = value;
     }
 }

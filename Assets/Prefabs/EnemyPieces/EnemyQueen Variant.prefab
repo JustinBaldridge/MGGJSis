@@ -152,6 +152,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 42ca1b5e70419804ca436aaf4885e82f, type: 2}
+    - target: {fileID: 8143037711152627941, guid: 94a08ae2c4a96da4a9a56f4d5de1ca71, type: 3}
+      propertyPath: impactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 512f65ecf5bc18f4eb63e7142967eed8, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 94a08ae2c4a96da4a9a56f4d5de1ca71, type: 3}

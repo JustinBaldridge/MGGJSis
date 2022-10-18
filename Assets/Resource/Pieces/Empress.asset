@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Rui
   title: Empress
-  description: 'Moves and takes up to 8 spaces orthogonally.
+  description: 'Moves and takes up to 7 spaces orthogonally.
 
 
     Moves and Takes

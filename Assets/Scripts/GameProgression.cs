@@ -10,6 +10,7 @@ public class GameProgression : MonoBehaviour
     private int levelsCompleted = 0;
     private int bonusStars = 0; 
 
+    [SerializeField] int maxLevels;
     void Awake()
     {
         if (Instance != null)
@@ -24,6 +25,7 @@ public class GameProgression : MonoBehaviour
     void Start()
     {
         UnitManager.Instance.OnAllEnemiesDefeated += UnitManager_OnAllEnemiesDefeated;
+        StartMenu.Instance.OnStartGame += StartMenu_OnStartGame;
     }
 
     private void UnitManager_OnAllEnemiesDefeated(object sender, EventArgs e)
@@ -31,13 +33,20 @@ public class GameProgression : MonoBehaviour
         levelsCompleted++;
     }
 
+    private void StartMenu_OnStartGame(object sender, EventArgs e)
+    {
+        levelsCompleted = 0;
+        bonusStars = 0;
+    }
+
     public int GetLevelsCompleted()
     {
         return levelsCompleted;
     }
 
+    // Starts at 0, goes up to 2.
     public int GetDifficultyStage()
-    {
+    { 
         return (int) Mathf.Floor(((float) levelsCompleted - 1f) / 2f);
     }
 
@@ -50,5 +59,10 @@ public class GameProgression : MonoBehaviour
     public int GetBonusStars()
     {
         return bonusStars;
+    }
+
+    public bool IsGameComplete()
+    {
+        return levelsCompleted >= maxLevels;
     }
 }

@@ -95,6 +95,10 @@ PrefabInstance:
       propertyPath: projectileSpawnPoint
       value: 
       objectReference: {fileID: 4928056595881447628}
+    - target: {fileID: 5577643062703493191, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: projectileSpawnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8f46566712ec1db4d93a89349f27874f, type: 3}
     - target: {fileID: 7468133496330146802, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
       propertyPath: m_Controller
       value: 

@@ -67,6 +67,18 @@ public class VirtualBoard
 
         Debug.Log("VirtualBoard.cs  piece at " + startGridObject.ToString() + " moved to " + endGridObject.ToString() );
     }
+
+    public void AddUnitToGridPosition(GridPosition gridPosition, Unit unit)
+    {
+        if (gridSystem.GetGridObject(gridPosition).HasAnyUnit())
+        {
+            Unit targetUnit = gridSystem.GetGridObject(gridPosition).GetUnit();
+            gridSystem.GetGridObject(gridPosition).RemoveUnit(targetUnit);
+        }
+
+        GridObject targetGridObject = gridSystem.GetGridObject(gridPosition);
+        targetGridObject.AddUnit(unit);
+    }
     
     public override string ToString()
     {

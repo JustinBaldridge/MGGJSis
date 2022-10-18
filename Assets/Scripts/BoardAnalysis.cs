@@ -7,6 +7,8 @@ public class BoardAnalysis : MonoBehaviour
 {
     public static BoardAnalysis Instance {get; private set; }
 
+    public event EventHandler OnBoardUpdated;
+
     int boardState;
     VirtualBoard currentBoard;
     GridPosition startingGridPosition;
@@ -61,8 +63,8 @@ public class BoardAnalysis : MonoBehaviour
         BaseAction action = sender as BaseAction;
         startingGridPosition = action.GetUnit().GetGridPosition();
 
-        Debug.Log("BoardAnalusis.cs OnMoveStart");
-        Debug.Log(currentBoard.ToString());
+        //Debug.Log("BoardAnalusis.cs OnMoveStart");
+        //Debug.Log(currentBoard.ToString());
     }
 
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
@@ -70,16 +72,18 @@ public class BoardAnalysis : MonoBehaviour
         BaseAction action = sender as BaseAction;
         endingGridPosition = action.GetUnit().GetGridPosition();
 
-        Debug.Log("BoardAnalusis.cs OnMoveStart");
-        Debug.Log(currentBoard.ToString());
+        //Debug.Log("BoardAnalusis.cs OnMoveStart");
+        //Debug.Log(currentBoard.ToString());
         currentBoard.MovePiece(startingGridPosition, endingGridPosition);
+        OnBoardUpdated?.Invoke(this, EventArgs.Empty);
     }
 
     private void UnitSpawner_OnSpawningFinished(object sender, EventArgs e)
     {
         currentBoard = new VirtualBoard();
-        Debug.Log("BoardAnalusis.cs  OnSpawningFinished");
-        Debug.Log(currentBoard.ToString());
+        OnBoardUpdated?.Invoke(this, EventArgs.Empty);
+        //Debug.Log("BoardAnalusis.cs  OnSpawningFinished");
+        //Debug.Log(currentBoard.ToString());
     }
 
     public static int GetPieceValue(PieceBase piece)

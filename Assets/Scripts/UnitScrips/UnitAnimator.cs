@@ -8,6 +8,8 @@ public class UnitAnimator : MonoBehaviour
     [SerializeField] TrailRenderer trailRenderer;
     [SerializeField] Transform projectileSpawnPoint;
 
+    [SerializeField] AudioClip impactSound;
+    [SerializeField] AudioClip projectileSpawnSound;
     Unit unit;
     Animator animator;
     BaseAction baseAction;
@@ -43,12 +45,14 @@ public class UnitAnimator : MonoBehaviour
     
     public void FreezeFrame(float duration)
     {
+        SFXPlayer.PlaySound(impactSound);
         saveTakeTarget.TakeDamage();
         TimeController.Instance.HitStop(duration);
     }
 
     public void SpawnProjectile(GameObject attackEffectPrefab)
     {
+        SFXPlayer.PlaySound(projectileSpawnSound);
         Debug.Log("UnitAnimator.cs  Spawned projectile");
         GameObject attackEffectObject = Instantiate(attackEffectPrefab, projectileSpawnPoint.position, Quaternion.identity);
         AttackEffect attackEffect = attackEffectObject.GetComponent<AttackEffect>();
@@ -58,6 +62,8 @@ public class UnitAnimator : MonoBehaviour
     private void Unit_OnUnitDamaged(object sender, EventArgs e)
     {
         animator.CrossFade(animDamaged, 0);
+
+        TimeController.Instance.ResetScale();
     }
 
     private void BaseAction_OnMoveActionStarted(object sender, EventArgs e)
@@ -70,6 +76,11 @@ public class UnitAnimator : MonoBehaviour
         animator.CrossFade(animAttacking, 0);
         saveTakeTarget = e.targetUnit;
         attackEffectTarget = LevelGrid.Instance.GetWorldPosition(e.targetGridPosition);
+
+        if (saveTakeTarget.TryGetComponent<KingAction>(out KingAction kingAction))
+        {
+            TimeController.Instance.TakingKing();
+        }
     }
 
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)

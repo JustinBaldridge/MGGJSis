@@ -31,6 +31,8 @@ public class UnitSpawner : MonoBehaviour
 
     [SerializeField] List<UnitPrefabPair> unitPrefabPairs;
     [SerializeField] GameObject lightBeamPrefab;
+    
+    [SerializeField] AudioClip lightBeamSound;
 
     [SerializeField] float cooldownTimer;
     [SerializeField] float unitSpawnTimeAddition;
@@ -97,6 +99,7 @@ public class UnitSpawner : MonoBehaviour
                         GameObject spawnBeamGameObject = Instantiate(lightBeamPrefab, spawnPosition, Quaternion.identity);
                         SpawningLightBeam lightBeam = spawnBeamGameObject.GetComponent<SpawningLightBeam>();
 
+                        SFXPlayer.PlaySound(lightBeamSound);
                         lightBeam.Initialize(unitPiece, new Action(() => {
                             Instantiate(newUnitPrefab, spawnPosition, Quaternion.identity);
                             OnAnySpawningStarted?.Invoke(this, new SpawnEventArgs{

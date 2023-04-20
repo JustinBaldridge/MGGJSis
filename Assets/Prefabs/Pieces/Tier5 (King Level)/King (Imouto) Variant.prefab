@@ -90,11 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 58965e536a8d28640a580ff524e90a57, type: 2}
     - target: {fileID: 1177340871778961435, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
       propertyPath: maxMoveTimer
-      value: 1
+      value: 0.6666667
       objectReference: {fileID: 0}
     - target: {fileID: 1177340871778961435, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
       propertyPath: maxAttackTimer
-      value: 2.667
+      value: 1.778
       objectReference: {fileID: 0}
     - target: {fileID: 1177340871778961435, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
       propertyPath: movePiece.m_Curve.Array.size

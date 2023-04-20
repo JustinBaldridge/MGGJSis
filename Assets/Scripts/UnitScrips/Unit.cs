@@ -25,7 +25,21 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         //healthSystem = GetComponent<HealthSystem>();
-        unitAction = GetComponent<BaseAction>();
+        BaseAction[] testActions = GetComponents<BaseAction>();
+        
+        if (testActions.Length == 1)
+        {
+            unitAction = testActions[0];
+        }
+
+        foreach (BaseAction action in testActions)
+        {
+            if (action.isActiveAndEnabled)
+            {
+                unitAction = action;
+                break;
+            }
+        }
     }
 
     private void Start()
@@ -73,7 +87,11 @@ public class Unit : MonoBehaviour
     {
         return unitAction;
     }
-
+    
+    public void SetUnitAction(BaseAction action)
+    {
+        unitAction = action;
+    }
 
     public bool IsEnemy()
     {
@@ -105,6 +123,7 @@ public class Unit : MonoBehaviour
         Destroy(gameObject);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        OnUnitDamaged?.Invoke(this, EventArgs.Empty);
     }
 
     public void TakeDamage()

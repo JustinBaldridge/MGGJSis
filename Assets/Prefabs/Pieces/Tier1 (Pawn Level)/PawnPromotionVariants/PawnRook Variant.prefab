@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3759391363603167399
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1177340870866755306, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b3b964ebe0c2e17409ad0e9a642130b8, type: 3}
+    - target: {fileID: 1177340871778961431, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_Name
+      value: PawnRook Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1177340871778961434, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577643062703493191, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: impactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 579cc6ae3a93b9e43b1688d69e5a9f52, type: 3}
+    - target: {fileID: 7468133496330146802, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 6aa3b5480d0eede4486dae6a08a788bc, type: 2}
+    m_RemovedComponents:
+    - {fileID: 1177340871778961435, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+--- !u!1 &2628637418530795696 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1177340871778961431, guid: 648a8c4b419b03348b2323ada5f19f61, type: 3}
+  m_PrefabInstance: {fileID: 3759391363603167399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1361062889887085069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2628637418530795696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9fdbf2dc41b2cc4bbce76c3153293fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMoveTimer: 1
+  maxAttackTimer: 1.333333
+  moveDistanceTimerAddition: 0
+  piece: {fileID: 11400000, guid: 37221d6119ea5704da0f255ff369324d, type: 2}
+  movePiece:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 0
+      inSlope: -0
+      outSlope: 2.0833335
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.88
+      value: 1
+      inSlope: 1.369863
+      outSlope: Infinity
+      tangentMode: 97
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackPiece:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0
+      inSlope: -0
+      outSlope: 2
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.75
+      value: 1
+      inSlope: 2
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  takenSound: {fileID: 0}

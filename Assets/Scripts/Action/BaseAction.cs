@@ -77,7 +77,10 @@ public abstract class BaseAction : MonoBehaviour
 
         movementDirection = targetPostition - initialPosition;
         
-        
+        bool animating = AnimationManager.Instance.GetAnimating();
+        float defaultTimer = AnimationManager.Instance.GetDefaultMoveTimer();
+        AnimationCurve defaultCurve = AnimationManager.Instance.GetDefaultMoveAnimationCurve();
+
         if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition))
         {
             Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
@@ -88,21 +91,21 @@ public abstract class BaseAction : MonoBehaviour
                     targetUnit = targetUnit,
                     targetGridPosition = gridPosition
                 });
-                modifiedMaxTimer = maxAttackTimer;
-                animCurve = attackPiece;
+                modifiedMaxTimer = (animating)? maxAttackTimer : defaultTimer;
+                animCurve = (animating)? attackPiece : defaultCurve;
             }
             else
             {
                 OnMoveActionStarted?.Invoke(this, EventArgs.Empty);
-                modifiedMaxTimer = maxMoveTimer;
-                animCurve = movePiece;
+                modifiedMaxTimer = (animating)? maxMoveTimer : defaultTimer;
+                animCurve = (animating)? movePiece : defaultCurve;
             }
         }
         else
         {
             OnMoveActionStarted?.Invoke(this, EventArgs.Empty);
-            modifiedMaxTimer = maxMoveTimer;
-            animCurve = movePiece;
+            modifiedMaxTimer = (animating)? maxMoveTimer : defaultTimer;
+            animCurve = (animating)? movePiece : defaultCurve;
         }
         ActionStart(onActionComplete);
     }

@@ -9,8 +9,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 448000875, guid: 7f70e3da0b7c89f4799cfc6a56bb546d, type: 3}
+      propertyPath: maxMoveTimer
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 448000875, guid: 7f70e3da0b7c89f4799cfc6a56bb546d, type: 3}
       propertyPath: maxAttackTimer
-      value: 1.7
+      value: 1.1333333
       objectReference: {fileID: 0}
     - target: {fileID: 448000875, guid: 7f70e3da0b7c89f4799cfc6a56bb546d, type: 3}
       propertyPath: attackPiece.m_Curve.Array.size

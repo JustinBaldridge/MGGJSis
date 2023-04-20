@@ -67,20 +67,24 @@ public class UnitAnimator : MonoBehaviour
     }
 
     private void BaseAction_OnMoveActionStarted(object sender, EventArgs e)
-    {
+    {   
+        if (!AnimationManager.Instance.GetAnimating()) return;
+
         animator.CrossFade(animMoving, 0);
     }
 
     private void BaseAction_OnTakeActionStarted(object sender, BaseAction.OnTakeEventArgs e)
     {
-        animator.CrossFade(animAttacking, 0);
         saveTakeTarget = e.targetUnit;
-        attackEffectTarget = LevelGrid.Instance.GetWorldPosition(e.targetGridPosition);
-
         if (saveTakeTarget.TryGetComponent<KingAction>(out KingAction kingAction))
         {
             TimeController.Instance.TakingKing();
         }
+
+        if (!AnimationManager.Instance.GetAnimating()) return;
+
+        animator.CrossFade(animAttacking, 0);
+        attackEffectTarget = LevelGrid.Instance.GetWorldPosition(e.targetGridPosition);
     }
 
     private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)

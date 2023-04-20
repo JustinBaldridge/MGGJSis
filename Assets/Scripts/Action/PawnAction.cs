@@ -2,9 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
 public class PawnAction : BaseAction
 {
+    [SerializeField] GameObject bishopPrefab;
+    [SerializeField] GameObject knightPrefab;
+    [SerializeField] GameObject rookPrefab;
+    [SerializeField] GameObject queenPrefab;
+
     bool hasMoved = false;
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)

@@ -132,8 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50a16a16efe7ae4e8b4677886c27387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveTimer: 1
-  maxAttackTimer: 2.5
+  maxMoveTimer: 0.6666667
+  maxAttackTimer: 1.6666666
   moveDistanceTimerAddition: 0
   piece: {fileID: 11400000, guid: 94ec2f249da13a04fba462cf28cabcc9, type: 2}
   movePiece:
@@ -193,3 +193,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  takenSound: {fileID: 0}

@@ -73,8 +73,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8701840206918229997, guid: 4a27aa8ace3e7814e9c629c73094b844, type: 3}
+      propertyPath: maxMoveTimer
+      value: 0.44333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 8701840206918229997, guid: 4a27aa8ace3e7814e9c629c73094b844, type: 3}
       propertyPath: maxAttackTimer
-      value: 1.33
+      value: 0.88666666
       objectReference: {fileID: 0}
     - target: {fileID: 8701840206918229997, guid: 4a27aa8ace3e7814e9c629c73094b844, type: 3}
       propertyPath: movePiece.m_Curve.Array.size

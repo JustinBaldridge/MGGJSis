@@ -20,6 +20,8 @@ public class UnitActionSystem : MonoBehaviour
     private bool isBusy;
     private bool offline;
 
+    private GridPosition saveGridPosition;
+
     private void Awake()
     {
         if (Instance != null)
@@ -54,6 +56,11 @@ public class UnitActionSystem : MonoBehaviour
         {
             return;
         } 
+
+        if (TryQueryCheck())
+        {
+
+        }
 
         HandleSelectedAction();
     }
@@ -148,6 +155,11 @@ public class UnitActionSystem : MonoBehaviour
                 }
             }
         }
+        return false;
+    }
+
+    private bool TryQueryCheck()
+    {
         return false;
     }
 

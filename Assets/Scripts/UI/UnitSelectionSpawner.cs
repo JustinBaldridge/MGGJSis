@@ -168,6 +168,11 @@ public class UnitSelectionSpawner : MonoBehaviour
             //allUnitSelectionUI.DisableButtons();
         }
 
+        foreach (RectTransform rt in unitSelectionUIRectTransform)
+        {
+            UnitSelectionUI unitSelection = rt.GetComponent<UnitSelectionUI>();
+            unitSelection.DisableButtons();
+        }
     
         instructionText.SetActive(false);
         index = unitSelectionUIRectTransform.IndexOf(rectTransform);

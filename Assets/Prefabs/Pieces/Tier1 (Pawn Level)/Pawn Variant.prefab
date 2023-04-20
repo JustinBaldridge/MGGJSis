@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb19d7ee8fbe2f4f80aa766c30ef620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveTimer: 1
-  maxAttackTimer: 1
+  maxMoveTimer: 0.6666667
+  maxAttackTimer: 0.6666667
   moveDistanceTimerAddition: 0
   piece: {fileID: 11400000, guid: 7ee039e2df782f045924ea1c3cff146d, type: 2}
   movePiece:
@@ -141,3 +141,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  takenSound: {fileID: 0}
+  bishopAnimation: {fileID: 22100000, guid: c84a5d3e955c7db45b95375970d77202, type: 2}
+  knightAnimation: {fileID: 22100000, guid: d7f7522649e93744aa3a18f17714a2f5, type: 2}
+  rookAnimation: {fileID: 22100000, guid: 6aa3b5480d0eede4486dae6a08a788bc, type: 2}
+  queenAnimation: {fileID: 22100000, guid: 9b506af5906aaca429eaf6f2ad53cec7, type: 2}

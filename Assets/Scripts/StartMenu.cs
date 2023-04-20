@@ -23,6 +23,7 @@ public class StartMenu : MonoBehaviour
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider sfxSlider;
     [SerializeField] Toggle screenShakeToggle;
+    [SerializeField] Toggle animationToggle;
     [Header ("Credits")]
     [SerializeField] GameObject creditsMenu;
     [Header ("Victory")]
@@ -42,6 +43,8 @@ public class StartMenu : MonoBehaviour
     bool isActive;
     bool startingGame;
     float savedSFXValue;
+
+    bool animating;
 
     private void Awake()
     {
@@ -73,9 +76,14 @@ public class StartMenu : MonoBehaviour
                 SFXPlayer.PlaySound(menuClickSound);
                 SetScreenShake(screenShakeToggle.isOn);
             });
+        animationToggle.onValueChanged.AddListener(delegate {
+                SFXPlayer.PlaySound(menuClickSound);
+                SetAnimation(animationToggle.isOn);
+            });
         SetMusicVolume(musicSlider.value);
         SetSFXVolume(sfxSlider.value);
         SetScreenShake(screenShakeToggle.isOn);
+        SetAnimation(animationToggle.isOn);
         RestartGame();
     }
 
@@ -178,6 +186,11 @@ public class StartMenu : MonoBehaviour
     public void SetScreenShake(bool value)
     {
         ScreenShake.Instance.SetScreenShake(value);
+    }
+
+    public void SetAnimation(bool value)
+    {
+        AnimationManager.Instance.SetAnimating(value);
     }
 
     public float GetSFXValue()

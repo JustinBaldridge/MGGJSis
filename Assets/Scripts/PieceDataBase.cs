@@ -7,9 +7,9 @@ public class PieceDatabase : MonoBehaviour
     public static PieceDatabase Instance;
 
     [SerializeField] List<PieceBase> tierOnePieces = new List<PieceBase>();
-    [SerializeField] List<PieceBase> tierTwoPieces;
-    [SerializeField] List<PieceBase> tierThreePieces;
-    [SerializeField] List<PieceBase> tierFourPieces;
+    [SerializeField] List<PieceBase> tierTwoPieces = new List<PieceBase>();
+    [SerializeField] List<PieceBase> tierThreePieces = new List<PieceBase>();
+    [SerializeField] List<PieceBase> tierFourPieces = new List<PieceBase>();
 
     private void Awake()
     {

@@ -62,17 +62,22 @@ public class UnitActionSystem : MonoBehaviour
 
         }
 
-        HandleSelectedAction();
+        StartCoroutine(HandleSelectedAction());
     }
 
-    private void HandleSelectedAction()
+    private IEnumerator HandleSelectedAction()
     {
         if (InputManager.Instance.IsMouseButtonDownThisFrame())
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition2D());
             if (!selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                return;  
+                yield break;  
+            }
+
+            if (selectedAction.IsSituational(mouseGridPosition))
+            {
+
             }
             SetBusy();
             selectedAction.TakeAction(mouseGridPosition, ClearBusy);
@@ -92,6 +97,7 @@ public class UnitActionSystem : MonoBehaviour
                     break;
             }*/
         }
+        yield break; 
     }
     private void SetBusy()
     {

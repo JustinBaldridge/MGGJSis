@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
     Vector3 initialPosition;
     Vector3 targetPosition;
     float timer;
-    float timeDuration = 3.5f;
+    [SerializeField] float timeDuration = 1.5f;
     float difference;
     bool isActive;
 

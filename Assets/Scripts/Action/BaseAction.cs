@@ -161,6 +161,11 @@ public abstract class BaseAction : MonoBehaviour
         return 1;
     }
 
+    public virtual bool IsSituational(GridPosition targetGridPosition)
+    {
+        return false;
+    }
+
     protected void ActionStart(Action onActionComplete)
     {
         isActive = true;
